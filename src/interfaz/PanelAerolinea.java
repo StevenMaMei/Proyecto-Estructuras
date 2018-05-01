@@ -1,6 +1,7 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	
 	public PanelAerolinea(VentanaAreolinea p){
 		principal= p;
-		setLayout(new BorderLayout());
+		setLayout(new GridLayout(3, 1));
 		
 		textCantCiudadesSeleccionadas= new JTextField();
 		textCantCiudadesSeleccionadas.setEditable(false);
@@ -38,9 +39,17 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 		btonSeleccionarCiudades.addActionListener(this);
 		btonSeleccionarCiudades.setActionCommand(BTON_SELECCIONAR_CIUDADES);
 		
+		btonAgregarEscalas= new JButton("Agregar las rutas");
+		btonAgregarEscalas.addActionListener(this);
+		btonAgregarEscalas.setActionCommand(BTON_AGREGAR_ESCALAS);
 		
+		btonCrearFinalizar= new JButton("Finalizar");
+		btonCrearFinalizar.addActionListener(this);
+		btonCrearFinalizar.setActionCommand(BTON_FINALIZAR);
 		
-		
+		add(btonSeleccionarCiudades);
+		add(btonAgregarEscalas);
+		add(btonCrearFinalizar);
 		
 	}
 	
@@ -56,8 +65,15 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		String c= arg0.getActionCommand();
+		if(BTON_SELECCIONAR_CIUDADES.equals(c)){
+			PanelSeleccionadorCiudades p= new PanelSeleccionadorCiudades(principal, this);
+			p.setVisible(true);
+		}else if(BTON_AGREGAR_ESCALAS.equals(c)){
+			
+		}else if(BTON_FINALIZAR.equals(c)){
+			
+		}
 	}
 	
 }

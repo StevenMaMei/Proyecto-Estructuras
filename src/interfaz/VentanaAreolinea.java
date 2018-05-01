@@ -7,11 +7,15 @@ import javax.swing.JFrame;
 public class VentanaAreolinea extends JFrame {
 
 	private PanelUsuario panelUsuario;
+	private PanelAerolinea panelAereolinea;
 	public VentanaAreolinea(){
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		panelUsuario= new PanelUsuario(this);
+		panelAereolinea= new PanelAerolinea(this);
+		
+		add(panelAereolinea,BorderLayout.EAST);
 		add(panelUsuario, BorderLayout.CENTER);
 		pack();
 		
