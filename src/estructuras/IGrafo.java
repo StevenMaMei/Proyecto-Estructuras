@@ -12,4 +12,5 @@ public interface IGrafo<T> {
 	public double [] [] Kruskal();
 	public Nodo Dijkstra  (T nodo1, T nodo2) throws Exception;
 	public Nodo FloydWarshall (T nodo1, T nodo2) throws Exception;
+	
 }
