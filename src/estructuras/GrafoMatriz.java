@@ -48,6 +48,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public int recorridoBFS(E nodoInicial) throws Exception {
+		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+			nodos.get(i).setRevisado(false);
+		}
 		int recorridos = 0;
 		NodoMatriz act = indices.get(nodoInicial);
 		if (act == null) {
@@ -86,6 +89,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
+		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+			nodos.get(i).setRevisado(false);
+		}
 		
 		for (int i = 0; i < maxNodos; i++) {
 			NodoMatriz<E> act = nodos.get(i);
