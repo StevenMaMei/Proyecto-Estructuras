@@ -4,9 +4,11 @@ import java.util.*;
 
 public interface INodo <T>{
 
-	public ParNodoPeso buscarAdyacente (T Nodo) throws Exception;
-	public HashMap <T, ParNodoPeso> darHijos ();
-	public T retornarElemento();
-	public void agregarArista (T nodo, double peso) throws Exception;
+	public boolean isRevisado();
+	public void setRevisado (boolean revisado);
+	public Nodo getPadre();
+	public void setPadre (Nodo padre);
+	public T getElemento();
+	public void setElemento (T elem);
 	
 }
