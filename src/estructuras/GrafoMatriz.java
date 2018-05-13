@@ -59,6 +59,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		Queue<NodoMatriz<E>> cola = new LinkedList<>();
 		cola.add(act);
+		act.setRevisado(true);
 		while (!cola.isEmpty()) {
 			NodoMatriz<E> actual = cola.poll();
 			int indice = actual.getPos();
@@ -100,13 +101,15 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 				stack.push(act);
 				while (!stack.isEmpty()) {
 					NodoMatriz<E> actual = stack.pop();
-					int indice = actual.getPos();
-					for (int j = 0; j < matrizAdyacencia.length; j++) {
-						NodoMatriz<E> agregar = nodos.get(j);
-						if (matrizAdyacencia[indice][j] != 0 && !agregar.isRevisado()) {
-							agregar.setRevisado(true);
-							stack.push(agregar);
-							agregar.setPadre(actual);
+					if (!actual.isRevisado()) {
+						actual.setRevisado(true);
+						int indice = actual.getPos();
+						for (int j = 0; j < matrizAdyacencia.length; j++) {
+							NodoMatriz<E> agregar = nodos.get(j);
+							if (matrizAdyacencia[indice][j] != 0 && !agregar.isRevisado()) {
+								stack.push(agregar);
+								agregar.setPadre(actual);
+							}
 						}
 					}
 				}
