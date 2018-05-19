@@ -1,5 +1,6 @@
 package estructuras;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -17,6 +18,14 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	
 	public GrafoMatriz (int maxNodos){
 		matrizAdyacencia = new double [maxNodos][maxNodos];
+		for (int i = 0; i < maxNodos; i++) {
+			for (int j = 0; j < maxNodos; j++) {
+				if (i == j)
+					matrizAdyacencia[i][j] = 0;
+				else 
+					matrizAdyacencia [i][j] = Integer.MAX_VALUE;
+			}
+		}
 		nodos = new HashMap<>();
 		this.maxNodos = maxNodos;
 		totalNodos = 0;
@@ -53,7 +62,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public int recorridoBFS(E nodoInicial) throws Exception {
-		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			nodos.get(i).setRevisado(false);
 		}
 		int recorridos = 0;
@@ -68,9 +77,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		while (!cola.isEmpty()) {
 			NodoMatriz<E> actual = cola.poll();
 			int indice = actual.getPos();
-			for (int i = 0; i < matrizAdyacencia.length; i++) {
+			for (int i = 0; i < totalNodos; i++) {
 				NodoMatriz<E> agregar = nodos.get(i);
-				if (matrizAdyacencia[indice][i] != 0 && !agregar.isRevisado()) {
+				if (matrizAdyacencia[indice][i] != Integer.MAX_VALUE && !agregar.isRevisado()) {
 					agregar.setRevisado(true);
 					cola.add(agregar);
 					recorridos++;
@@ -95,11 +104,11 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
-		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			nodos.get(i).setRevisado(false);
 		}
 		
-		for (int i = 0; i < maxNodos; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			NodoMatriz<E> act = nodos.get(i);
 			if (act != null && !act.isRevisado()) {
 				Stack<NodoMatriz<E>> stack = new Stack();
@@ -109,9 +118,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 					if (!actual.isRevisado()) {
 						actual.setRevisado(true);
 						int indice = actual.getPos();
-						for (int j = 0; j < matrizAdyacencia.length; j++) {
+						for (int j = 0; j < totalNodos; j++) {
 							NodoMatriz<E> agregar = nodos.get(j);
-							if (matrizAdyacencia[indice][j] != 0 && !agregar.isRevisado()) {
+							if (matrizAdyacencia[indice][j] != Integer.MAX_VALUE && !agregar.isRevisado()) {
 								stack.push(agregar);
 								agregar.setPadre(actual);
 							}
@@ -125,8 +134,52 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public GrafoMatriz<E> prim() {
-		//TODO Auto-generated method stub
-		return null;
+		int totAgregados = 0;
+		
+		GrafoMatriz <E> retorno = new GrafoMatriz<>(maxNodos);
+		for (int i = 0; i < totalNodos; i++) {
+			try {
+				retorno.agregarNodo((E) nodos.get(i).getElemento());
+				nodos.get(i).setRevisado(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		PriorityQueue<ParNodoPeso<NodoMatriz>> colaPrior = new PriorityQueue<>(maxNodos);
+		double minPeso = Integer.MAX_VALUE;
+		int ind1 = 0;
+		int ind2 = 0;
+		for (int i = 0; i < totalNodos; i++) {
+			for (int j = i+1; j < totalNodos; j++) {
+				if (matrizAdyacencia[i][j] < minPeso) {
+					minPeso = matrizAdyacencia [i][j];
+					ind1 = i;
+					ind2 = j;
+				}
+			}
+		}
+		NodoMatriz<E> nodo1 = nodos.get(ind1);
+		NodoMatriz<E> nodo2 = nodos.get(ind2);
+		
+		nodo1.setRevisado(true);
+		nodo2.setRevisado(true);
+		
+		try {
+			retorno.generarArista((E) nodo1.getElemento(), (E) nodo2.getElemento(), minPeso);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		totAgregados = 2;
+		
+		for (int i = 0; i < totalNodos; i++) {
+			NodoMatriz<E> nuevo = nodos.get(i);
+			if (i != ind1 &&)
+		}
+		
+		
+		return retorno;
+		
 	}
 
 	@Override
@@ -145,6 +198,24 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	public Nodo FloydWarshall(E nodo1, E nodo2) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
+		NodoMatriz n = indices.get(nodo);
+		if (n == null)
+				throw new Exception ("No existe ningun nodo con el elemento buscado");
+		ArrayList <E> retorno = new ArrayList<>();
+		int ind = n.getPos();
+		for (int i = 0; i < totalNodos; i++) {
+			if (ind != i && matrizAdyacencia[ind][i] != Integer.MAX_VALUE) {
+				retorno.add((E) nodos.get(i).getElemento());
+			}
+		}
+		
+		
+		
+		return retorno;
 	}
 
 }
