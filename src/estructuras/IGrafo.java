@@ -7,8 +7,8 @@ public interface IGrafo<T> {
 	public int recorridoBFS (T nodoInicial) throws Exception;
 	public int recorridoBFS ();
 	public void recorridoDFS();
-	public double [] [] prim();
-	public double [] [] Kruskal();
+	public IGrafo<T> prim();
+	public IGrafo<T> Kruskal();
 	public Nodo Dijkstra  (T nodo1, T nodo2) throws Exception;
 	public Nodo FloydWarshall (T nodo1, T nodo2) throws Exception;
 	

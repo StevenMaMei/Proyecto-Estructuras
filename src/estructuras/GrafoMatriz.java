@@ -2,6 +2,7 @@ package estructuras;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -119,13 +120,13 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public double[][] prim() {
-		// TODO Auto-generated method stub
+	public GrafoMatriz<E> prim() {
+		//TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public double[][] Kruskal() {
+	public GrafoMatriz<E> Kruskal() {
 		// TODO Auto-generated method stub
 		return null;
 	}
