@@ -4,6 +4,11 @@ public class ParNodoPeso<T extends INodo> implements Comparable{
 
 	private T nod;
 	private double peso;
+	
+	public ParNodoPeso (T nod, double peso) {
+		this.nod = nod;
+		this.peso = peso;
+	}
 
 	@Override
 	public int compareTo(Object o) {

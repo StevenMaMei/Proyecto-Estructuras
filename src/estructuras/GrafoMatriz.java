@@ -174,7 +174,10 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		for (int i = 0; i < totalNodos; i++) {
 			NodoMatriz<E> nuevo = nodos.get(i);
-			if (i != ind1 &&)
+			if (i != ind1 && matrizAdyacencia[i][j] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
+				ParNodoPeso<NodoMatriz<E>> p = new ParNodoPeso<NodoMatriz<E>>(nuevo, matrizAdyacencia[i][j]);
+				
+			}
 		}
 		
 		
