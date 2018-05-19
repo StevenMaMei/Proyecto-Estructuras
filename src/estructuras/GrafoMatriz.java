@@ -11,6 +11,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	private double[][] matrizAdyacencia;
 	private HashMap<Integer, NodoMatriz<E>> nodos;
 	private HashMap<E, NodoMatriz> indices;
+	private HashMap<NodoMatriz,Integer> indiceVertice; //Asignar un indice al vertice 
 	private int maxNodos;
 	private int totalNodos;
 	
@@ -19,16 +20,19 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		nodos = new HashMap<>();
 		this.maxNodos = maxNodos;
 		totalNodos = 0;
+		
+		indiceVertice = new HashMap<>();
 	}
 	
 	@Override
 	public void agregarNodo(E nodo) throws Exception {
 		if (totalNodos == maxNodos)
 			throw new Exception ("Ha excedido el maximo de nodos permitidos");
-		
+
 		NodoMatriz nuevo = new NodoMatriz<E>(nodo, totalNodos++);
 		nodos.put(totalNodos, nuevo);
 		indices.put(nodo, nuevo);
+		indiceVertice.put(nuevo, nuevo.getPos());
 	}
 
 	@Override
