@@ -11,8 +11,8 @@ public interface IGrafo<T> {
 	public void recorridoDFS();
 	public IGrafo<T> prim();
 	public IGrafo<T> Kruskal();
-	public Nodo Dijkstra  (T nodo1, T nodo2) throws Exception;
-	public Nodo FloydWarshall (T nodo1, T nodo2) throws Exception;
+	public ListaPeso Dijkstra  (T nodo1, T nodo2) throws Exception;
+	public double[][] FloydWarshall (T nodo1, T nodo2) throws Exception;
 	public ArrayList <T> darAdyacentes (T nodo) throws Exception;
 	
 }

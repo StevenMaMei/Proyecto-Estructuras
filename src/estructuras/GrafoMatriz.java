@@ -2,6 +2,7 @@ package estructuras;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -23,7 +24,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 				if (i == j)
 					matrizAdyacencia[i][j] = 0;
 				else 
-					matrizAdyacencia [i][j] = Integer.MAX_VALUE;
+					matrizAdyacencia [i][j] = Double.MAX_VALUE;
 			}
 		}
 		nodos = new HashMap<>();
@@ -79,7 +80,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 			int indice = actual.getPos();
 			for (int i = 0; i < totalNodos; i++) {
 				NodoMatriz<E> agregar = nodos.get(i);
-				if (matrizAdyacencia[indice][i] != Integer.MAX_VALUE && !agregar.isRevisado()) {
+				if (matrizAdyacencia[indice][i] != Double.MAX_VALUE && !agregar.isRevisado()) {
 					agregar.setRevisado(true);
 					cola.add(agregar);
 					recorridos++;
@@ -120,7 +121,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 						int indice = actual.getPos();
 						for (int j = 0; j < totalNodos; j++) {
 							NodoMatriz<E> agregar = nodos.get(j);
-							if (matrizAdyacencia[indice][j] != Integer.MAX_VALUE && !agregar.isRevisado()) {
+							if (matrizAdyacencia[indice][j] != Double.MAX_VALUE && !agregar.isRevisado()) {
 								stack.push(agregar);
 								agregar.setPadre(actual);
 							}
@@ -146,7 +147,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 			}
 		}
 		PriorityQueue<NodoPesoAdyacente<NodoMatriz<E>>> colaPrior = new PriorityQueue<>(maxNodos);
-		double minPeso = Integer.MAX_VALUE;
+		double minPeso = Double.MAX_VALUE;
 		int ind1 = 0;
 		int ind2 = 0;
 		for (int i = 0; i < totalNodos; i++) {
@@ -174,12 +175,12 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		for (int i = 0; i < totalNodos; i++) {
 			NodoMatriz<E> nuevo = nodos.get(i);
-			if (i != ind1 && matrizAdyacencia[ind1][i] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
+			if (i != ind1 && matrizAdyacencia[ind1][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
 				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind1][i], nodo1);
 				colaPrior.add(p);
 			} 
 			
-			if (i != ind2 && matrizAdyacencia[ind2][i] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
+			if (i != ind2 && matrizAdyacencia[ind2][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
 				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind2][i], nodo2);
 				colaPrior.add(p);
 			}
@@ -192,6 +193,20 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 			if (!nuev.isRevisado()) {
 				E elemento = (E) nuev.getElemento();
 				E adyacente = (E) n.getAdyacente().getElemento();
+				try {
+					retorno.generarArista(elemento, adyacente, n.getPeso());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				totAgregados++;
+				
+				int ind3 = indices.get(elemento).getPos();
+				for (int i = 0; i < totalNodos; i++) {
+					NodoMatriz<E> nuevo = nodos.get(i);
+					if (i != ind3 && matrizAdyacencia[ind3][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
+						NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<NodoMatriz<E>>(nuevo, matrizAdyacencia[ind3][i], nuev);
+					}
+				}
 			}
 		}
 		
@@ -207,13 +222,60 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public Nodo Dijkstra(E nodo1, E nodo2) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ListaPeso Dijkstra(E nodo1, E nodo2) throws Exception {
+		NodoMatriz<E> n1 = indices.get(nodo1);
+		NodoMatriz <E> n2 = indices.get(nodo2);
+		LinkedList<E> camino = new LinkedList<>();
+		
+		if (n1 == null || n2 == null) {
+			throw new Exception ("Alguno de los dos nodos no existe");
+		}
+		
+		int indice1 = n1.getPos();
+		
+		HashMap<Integer, Double> L = new HashMap<>();
+		HashMap<Integer, E> S = new HashMap<>();
+		
+		for (int i = 0; i < totalNodos; i++) {
+			L.put(i, matrizAdyacencia[indice1][i]);
+		}
+		
+		NodoMatriz<E> u = n1;
+		while (S.get(n2.getPos()) == null) {
+			double min = Double.MAX_VALUE;
+			int ind = 0;
+			for (int key : L.keySet()) {
+				if (S.get(key) == null && L.get(key) < min) {
+					min = L.get(key);
+					ind = key;
+				}
+				S.put(ind, (E) u.getElemento());
+				u = nodos.get(ind);
+				for (int i = 0; i < totalNodos; i++) {
+					double pes = matrizAdyacencia[ind][i];
+					if (S.get(i) == null) {
+						if (L.get(ind) + pes < L.get(i)) {
+							L.put(i, L.get(ind) + pes);
+						}
+							
+					}
+				}
+			}
+		}
+		int ind2 = n2.getPos();
+		int act = ind2;
+		while (act != indice1) {
+			E elem = S.get(n2);
+			camino.addFirst(elem);
+			act = indices.get(elem).getPos();
+		}
+		camino.addFirst(nodo1);
+		
+		return new ListaPeso<>(camino, L.get(ind2));
 	}
 
 	@Override
-	public Nodo FloydWarshall(E nodo1, E nodo2) throws Exception {
+	public double[][] FloydWarshall(E nodo1, E nodo2) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -226,7 +288,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		ArrayList <E> retorno = new ArrayList<>();
 		int ind = n.getPos();
 		for (int i = 0; i < totalNodos; i++) {
-			if (ind != i && matrizAdyacencia[ind][i] != Integer.MAX_VALUE) {
+			if (ind != i && matrizAdyacencia[ind][i] != Double.MAX_VALUE) {
 				retorno.add((E) nodos.get(i).getElemento());
 			}
 		}
