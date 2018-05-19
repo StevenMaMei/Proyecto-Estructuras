@@ -145,7 +145,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 				e.printStackTrace();
 			}
 		}
-		PriorityQueue<ParNodoPeso<NodoMatriz>> colaPrior = new PriorityQueue<>(maxNodos);
+		PriorityQueue<NodoPesoAdyacente<NodoMatriz<E>>> colaPrior = new PriorityQueue<>(maxNodos);
 		double minPeso = Integer.MAX_VALUE;
 		int ind1 = 0;
 		int ind2 = 0;
@@ -174,9 +174,24 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		for (int i = 0; i < totalNodos; i++) {
 			NodoMatriz<E> nuevo = nodos.get(i);
-			if (i != ind1 && matrizAdyacencia[i][j] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
-				ParNodoPeso<NodoMatriz<E>> p = new ParNodoPeso<NodoMatriz<E>>(nuevo, matrizAdyacencia[i][j]);
-				
+			if (i != ind1 && matrizAdyacencia[ind1][i] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
+				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind1][i], nodo1);
+				colaPrior.add(p);
+			} 
+			
+			if (i != ind2 && matrizAdyacencia[ind2][i] != Integer.MAX_VALUE && !nuevo.isRevisado()) {
+				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind2][i], nodo2);
+				colaPrior.add(p);
+			}
+		}
+		
+		while (totAgregados < totalNodos) {
+			NodoPesoAdyacente<NodoMatriz<E>> n = colaPrior.poll();
+			NodoMatriz<E> nuev = n.getNodo();
+			
+			if (!nuev.isRevisado()) {
+				E elemento = (E) nuev.getElemento();
+				E adyacente = (E) n.getAdyacente().getElemento();
 			}
 		}
 		
