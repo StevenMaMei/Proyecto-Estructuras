@@ -9,7 +9,7 @@ public interface IGrafo<T> {
 	public int recorridoBFS (T nodoInicial) throws Exception;
 	public int recorridoBFS ();
 	public void recorridoDFS();
-	public IGrafo<T> prim();
+	public IGrafo<T> prim() throws Exception;
 	public IGrafo<T> Kruskal();
 	public ListaPeso<T> Dijkstra  (T nodo1, T nodo2) throws Exception;
 	public double[][] FloydWarshall () throws Exception;

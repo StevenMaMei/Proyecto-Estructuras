@@ -38,7 +38,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	public void agregarNodo(E nodo) throws Exception {
 		if (totalNodos == maxNodos)
 			throw new Exception ("Ha excedido el maximo de nodos permitidos");
-
+		if (indices.get(nodo) != null) {
+			throw new Exception ("El nodo ya existe");
+		}
 		NodoMatriz<E> nuevo = new NodoMatriz<>(nodo, totalNodos++);
 		nodos.put(totalNodos, nuevo);
 		indices.put(nodo, nuevo);
@@ -134,8 +136,11 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public GrafoMatriz<E> prim() {
+	public GrafoMatriz<E> prim() throws Exception{
 		int totAgregados = 0;
+		int conexos = recorridoBFS();
+		if (conexos < totalNodos)
+			throw new Exception("El grafo debe de ser conexo");
 		
 		GrafoMatriz <E> retorno = new GrafoMatriz<>(maxNodos);
 		for (int i = 0; i < totalNodos; i++) {
@@ -265,6 +270,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		}
 		int ind2 = n2.getPos();
 		int act = ind2;
+		if (L.get(ind2) == Double.MAX_VALUE) {
+			throw new Exception ("Es imposible llegar de un nodo al otro");
+		}
 		while (act != indice1) {
 			E elem = S.get(n2);
 			camino.addFirst(elem);
