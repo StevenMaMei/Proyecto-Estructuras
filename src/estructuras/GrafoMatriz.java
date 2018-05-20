@@ -276,7 +276,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public double[][] FloydWarshall(E nodo1, E nodo2) throws Exception {
+	public double[][] FloydWarshall() throws Exception {
 		double [][] retorno = new double[totalNodos] [totalNodos];
 		for (int i = 0; i < totalNodos; i++) {
 			for (int j = 0; j < totalNodos; j++) {
