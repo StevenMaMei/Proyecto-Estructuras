@@ -31,7 +31,10 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 					matrizAdyacencia [i][j] = Double.MAX_VALUE;
 			}
 		}
+		
 		nodos = new HashMap<>();
+		indices = new HashMap<> ();
+		
 		this.maxNodos = maxNodos;
 		totalNodos = 0;
 		
@@ -376,6 +379,12 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		NodoMatriz<E> padre = (NodoMatriz<E>) act.getPadre();
 		return padre.getElemento();
 	}
+	
+
+	public boolean estaNodo (E nodo) {
+		return indices.get(nodo) != null;
+	}
+
 
 
 
