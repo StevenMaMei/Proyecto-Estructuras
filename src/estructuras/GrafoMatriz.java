@@ -1,7 +1,10 @@
 package estructuras;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -10,11 +13,22 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	private double[][] matrizAdyacencia;
 	private HashMap<Integer, NodoMatriz<E>> nodos;
 	private HashMap<E, NodoMatriz> indices;
+
+	 
+
 	private int maxNodos;
 	private int totalNodos;
 	
 	public GrafoMatriz (int maxNodos){
 		matrizAdyacencia = new double [maxNodos][maxNodos];
+		for (int i = 0; i < maxNodos; i++) {
+			for (int j = 0; j < maxNodos; j++) {
+				if (i == j)
+					matrizAdyacencia[i][j] = 0;
+				else 
+					matrizAdyacencia [i][j] = Double.MAX_VALUE;
+			}
+		}
 		nodos = new HashMap<>();
 		this.maxNodos = maxNodos;
 		totalNodos = 0;
@@ -25,8 +39,10 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	public void agregarNodo(E nodo) throws Exception {
 		if (totalNodos == maxNodos)
 			throw new Exception ("Ha excedido el maximo de nodos permitidos");
-
-		NodoMatriz nuevo = new NodoMatriz<E>(nodo, totalNodos++);
+		if (indices.get(nodo) != null) {
+			throw new Exception ("El nodo ya existe");
+		}
+		NodoMatriz<E> nuevo = new NodoMatriz<>(nodo, totalNodos++);
 		nodos.put(totalNodos, nuevo);
 		indices.put(nodo, nuevo);
 	}
@@ -49,11 +65,11 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public int recorridoBFS(E nodoInicial) throws Exception {
-		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			nodos.get(i).setRevisado(false);
 		}
 		int recorridos = 0;
-		NodoMatriz act = indices.get(nodoInicial);
+		NodoMatriz<E> act = indices.get(nodoInicial);
 		if (act == null) {
 			throw new Exception ("El nodo no existe");
 		}
@@ -64,9 +80,9 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		while (!cola.isEmpty()) {
 			NodoMatriz<E> actual = cola.poll();
 			int indice = actual.getPos();
-			for (int i = 0; i < matrizAdyacencia.length; i++) {
+			for (int i = 0; i < totalNodos; i++) {
 				NodoMatriz<E> agregar = nodos.get(i);
-				if (matrizAdyacencia[indice][i] != 0 && !agregar.isRevisado()) {
+				if (matrizAdyacencia[indice][i] != Double.MAX_VALUE && !agregar.isRevisado()) {
 					agregar.setRevisado(true);
 					cola.add(agregar);
 					recorridos++;
@@ -82,7 +98,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	public int recorridoBFS() {
 		int retorno;
 		try {
-			retorno = recorridoBFS((E) nodos.get(0).getElemento());
+			retorno = recorridoBFS(nodos.get(0).getElemento());
 		} catch (Exception e) {
 			retorno = 0;
 		}
@@ -91,23 +107,23 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
-		for (int i = 0; i < maxNodos && nodos.get(i) != null; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			nodos.get(i).setRevisado(false);
 		}
 		
-		for (int i = 0; i < maxNodos; i++) {
+		for (int i = 0; i < totalNodos; i++) {
 			NodoMatriz<E> act = nodos.get(i);
 			if (act != null && !act.isRevisado()) {
-				Stack<NodoMatriz<E>> stack = new Stack();
+				Stack<NodoMatriz<E>> stack = new Stack<>();
 				stack.push(act);
 				while (!stack.isEmpty()) {
 					NodoMatriz<E> actual = stack.pop();
 					if (!actual.isRevisado()) {
 						actual.setRevisado(true);
 						int indice = actual.getPos();
-						for (int j = 0; j < matrizAdyacencia.length; j++) {
+						for (int j = 0; j < totalNodos; j++) {
 							NodoMatriz<E> agregar = nodos.get(j);
-							if (matrizAdyacencia[indice][j] != 0 && !agregar.isRevisado()) {
+							if (matrizAdyacencia[indice][j] != Double.MAX_VALUE && !agregar.isRevisado()) {
 								stack.push(agregar);
 								agregar.setPadre(actual);
 							}
@@ -120,27 +136,226 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public double[][] prim() {
-		// TODO Auto-generated method stub
-		return null;
+	public IGrafo<E> Kruskal() throws Exception {
+		
+		GrafoMatriz<E> grafoSalida = new GrafoMatriz<>(maxNodos);
+		ConjuntosDisjuntos conjunto = new ConjuntosDisjuntos(maxNodos);
+		int ind1 = 0;
+		int ind2 = 0;
+		int A = 0;
+		
+		//Make-Set crear el conjunto
+		
+		if(conjunto.findSet(ind1) != conjunto.findSet(ind2)) {
+			conjunto.union(ind1, ind2);
+		}
+		
+		
+		//Elegir la arista con menor peso del todo el grafo 
+		
+		//Buscar la arista con menor peso siguiente 
+		
+		
+		return grafoSalida;
+	}
+	
+	
+	@Override
+	public GrafoMatriz<E> prim() throws Exception{
+		int totAgregados = 0;
+		int conexos = recorridoBFS();
+		if (conexos < totalNodos)
+			throw new Exception("El grafo debe de ser conexo");
+		
+		GrafoMatriz <E> retorno = new GrafoMatriz<>(maxNodos);
+		for (int i = 0; i < totalNodos; i++) {
+			try {
+				retorno.agregarNodo((E) nodos.get(i).getElemento());
+				nodos.get(i).setRevisado(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		PriorityQueue<NodoPesoAdyacente<NodoMatriz<E>>> colaPrior = new PriorityQueue<>(maxNodos);
+		double minPeso = Double.MAX_VALUE;
+		int ind1 = 0;
+		int ind2 = 0;
+		for (int i = 0; i < totalNodos; i++) {
+			for (int j = i+1; j < totalNodos; j++) {
+				if (matrizAdyacencia[i][j] < minPeso) {
+					minPeso = matrizAdyacencia [i][j];
+					ind1 = i;
+					ind2 = j;
+				}
+			}
+		}
+		NodoMatriz<E> nodo1 = nodos.get(ind1);
+		NodoMatriz<E> nodo2 = nodos.get(ind2);
+		
+		nodo1.setRevisado(true);
+		nodo2.setRevisado(true);
+		
+		try {
+			retorno.generarArista(nodo1.getElemento(), nodo2.getElemento(), minPeso);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		totAgregados = 2;
+		
+		for (int i = 0; i < totalNodos; i++) {
+			NodoMatriz<E> nuevo = nodos.get(i);
+			if (i != ind1 && matrizAdyacencia[ind1][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
+				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind1][i], nodo1);
+				colaPrior.add(p);
+			} 
+			
+			if (i != ind2 && matrizAdyacencia[ind2][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
+				NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<> (nuevo, matrizAdyacencia[ind2][i], nodo2);
+				colaPrior.add(p);
+			}
+		}
+		
+		while (totAgregados < totalNodos) {
+			NodoPesoAdyacente<NodoMatriz<E>> n = colaPrior.poll();
+			NodoMatriz<E> nuev = n.getNodo();
+			
+			if (!nuev.isRevisado()) {
+				E elemento = nuev.getElemento();
+				E adyacente = n.getAdyacente().getElemento();
+				try {
+					retorno.generarArista(elemento, adyacente, n.getPeso());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				totAgregados++;
+				
+				int ind3 = indices.get(elemento).getPos();
+				for (int i = 0; i < totalNodos; i++) {
+					NodoMatriz<E> nuevo = nodos.get(i);
+					if (i != ind3 && matrizAdyacencia[ind3][i] != Double.MAX_VALUE && !nuevo.isRevisado()) {
+						NodoPesoAdyacente<NodoMatriz<E>> p = new NodoPesoAdyacente<>(nuevo, matrizAdyacencia[ind3][i], nuev);
+						colaPrior.add(p);
+					}
+				}
+			}
+		}
+		
+		
+		return retorno;
+		
 	}
 
-	@Override 
-	public double[][] Kruskal() {
-		// TODO Auto-generated method stub
-		return null;
+
+
+	@Override
+	public ListaPeso<E> Dijkstra(E nodo1, E nodo2) throws Exception {
+		NodoMatriz<E> n1 = indices.get(nodo1);
+		NodoMatriz <E> n2 = indices.get(nodo2);
+		LinkedList<E> camino = new LinkedList<>();
+		
+		if (n1 == null || n2 == null) {
+			throw new Exception ("Alguno de los dos nodos no existe");
+		}
+		
+		int indice1 = n1.getPos();
+		
+		HashMap<Integer, Double> L = new HashMap<>();
+		HashMap<Integer, E> S = new HashMap<>();
+		
+		for (int i = 0; i < totalNodos; i++) {
+			L.put(i, matrizAdyacencia[indice1][i]);
+		}
+		
+		NodoMatriz<E> u = n1;
+		while (S.get(n2.getPos()) == null) {
+			double min = Double.MAX_VALUE;
+			int ind = 0;
+			for (int key : L.keySet()) {
+				if (S.get(key) == null && L.get(key) < min) {
+					min = L.get(key);
+					ind = key;
+				}
+				S.put(ind, (E) u.getElemento());
+				u = nodos.get(ind);
+				for (int i = 0; i < totalNodos; i++) {
+					double pes = matrizAdyacencia[ind][i];
+					if (S.get(i) == null) {
+						if (L.get(ind) + pes < L.get(i)) {
+							L.put(i, L.get(ind) + pes);
+						}
+							
+					}
+				}
+			}
+		}
+		int ind2 = n2.getPos();
+		int act = ind2;
+		if (L.get(ind2) == Double.MAX_VALUE) {
+			throw new Exception ("Es imposible llegar de un nodo al otro");
+		}
+		while (act != indice1) {
+			E elem = S.get(n2);
+			camino.addFirst(elem);
+			act = indices.get(elem).getPos();
+		}
+		camino.addFirst(nodo1);
+		
+		return new ListaPeso<>(camino, L.get(ind2));
 	}
 
 	@Override
-	public Nodo Dijkstra(E nodo1, E nodo2) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public double[][] FloydWarshall() throws Exception {
+		double [][] retorno = new double[totalNodos] [totalNodos];
+		for (int i = 0; i < totalNodos; i++) {
+			for (int j = 0; j < totalNodos; j++) {
+				retorno [i][j] = matrizAdyacencia[i][j];
+			}
+		}
+		for (int k = 0; k < totalNodos; k++) {
+			for (int i = 0; i < totalNodos; i++) {
+				for (int j = i+1; j < totalNodos; j++) {
+					if (retorno [i][j] > retorno [i][k] + retorno [k][j]) {
+						retorno [i][j] = retorno [i][k] + retorno [k][j];
+						retorno [j][i] = retorno [i][j];
+					}
+				}
+			}
+		}
+		
+		return retorno;
 	}
 
 	@Override
-	public Nodo FloydWarshall(E nodo1, E nodo2) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
+		NodoMatriz<E> n = indices.get(nodo);
+		if (n == null)
+				throw new Exception ("No existe ningun nodo con el elemento buscado");
+		ArrayList <E> retorno = new ArrayList<>();
+		int ind = n.getPos();
+		for (int i = 0; i < totalNodos; i++) {
+			if (ind != i && matrizAdyacencia[ind][i] != Double.MAX_VALUE) {
+				retorno.add(nodos.get(i).getElemento());
+			}
+		}
+		
+		
+		
+		return retorno;
 	}
+
+	@Override
+	public E darPadre(E nodo) throws Exception {
+		NodoMatriz<E> act = nodos.get(nodo);
+		if (act == null)
+			throw new Exception ("El nodo no existe");
+		
+		NodoMatriz<E> padre = (NodoMatriz<E>) act.getPadre();
+		return padre.getElemento();
+	}
+
+
+
+	
 
 }
