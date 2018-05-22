@@ -70,7 +70,8 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 			PanelSeleccionadorCiudades p= new PanelSeleccionadorCiudades(principal, this);
 			p.setVisible(true);
 		}else if(BTON_AGREGAR_ESCALAS.equals(c)){
-			
+			PanelRelacionesCiudades pa= new PanelRelacionesCiudades();
+			pa.setVisible(true);
 		}else if(BTON_FINALIZAR.equals(c)){
 			
 		}
