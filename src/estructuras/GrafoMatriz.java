@@ -1,6 +1,8 @@
 package estructuras;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -140,20 +142,41 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		GrafoMatriz<E> grafoSalida = new GrafoMatriz<>(maxNodos);
 		ConjuntosDisjuntos conjunto = new ConjuntosDisjuntos(maxNodos);
-		int ind1 = 0;
-		int ind2 = 0;
-		int A = 0;
 		
-		//Make-Set crear el conjunto
-		
-		if(conjunto.findSet(ind1) != conjunto.findSet(ind2)) {
-			conjunto.union(ind1, ind2);
+		for (int i = 0; i < totalNodos; i++) {
+			try {
+				grafoSalida.agregarNodo((E) nodos.get(i).getElemento());
+				nodos.get(i).setRevisado(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
+		ArrayList<NodoPesoAdyacente<NodoMatriz<E>>> aristas = new ArrayList<>();
 		
-		//Elegir la arista con menor peso del todo el grafo 
+		for (int i = 0; i < maxNodos; i++) {
+			for (int j = i+1; j < maxNodos; j++) {
+				if (matrizAdyacencia[i][j] != Double.MAX_VALUE) {
+					NodoPesoAdyacente<NodoMatriz<E>> arista = new NodoPesoAdyacente<NodoMatriz<E>>(nodos.get(i), matrizAdyacencia[i][j], nodos.get(j));
+					aristas.add(arista);
+				}
+			}
+		}
 		
-		//Buscar la arista con menor peso siguiente 
+		Collections.sort(aristas);
+		
+		for (int k = 0; k < aristas.size(); k++) {
+			
+			NodoPesoAdyacente<NodoMatriz<E>> arista = aristas.get(k);
+			NodoMatriz<E> i = arista.getNodo();
+			NodoMatriz<E> j = arista.getAdyacente();
+			
+			if (!conjunto.esElMismo(i.getPos(), j.getPos())) {
+				conjunto.union(i.getPos(), j.getPos());
+				grafoSalida.generarArista(i.getElemento(), j.getElemento(), arista.getPeso());
+			}
+			
+		}
 		
 		
 		return grafoSalida;
