@@ -1,6 +1,6 @@
 package estructuras;
 
-public class NodoMatriz<E> extends Nodo implements INodoMatriz<E>{
+public class NodoMatriz<E> extends Nodo<E> implements INodoMatriz<E>{
 
 	private int pos;
 	

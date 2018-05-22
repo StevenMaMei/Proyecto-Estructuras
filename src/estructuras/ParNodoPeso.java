@@ -1,5 +1,7 @@
 package estructuras;
 
-public class ParNodoPeso {
+public class ParNodoPeso{
+
+
 
 }

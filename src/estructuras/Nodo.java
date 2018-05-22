@@ -6,7 +6,7 @@ public abstract class Nodo<E> implements INodo<E> {
 	
 	private E elemento;
 	
-	private Nodo padre;
+	private Nodo<E> padre;
 
 	public Nodo (E elem) {
 		elemento = elem;
@@ -25,12 +25,12 @@ public abstract class Nodo<E> implements INodo<E> {
 	}
 
 	@Override
-	public Nodo getPadre() {
+	public Nodo<E> getPadre() {
 		return padre;
 	}
 
 	@Override
-	public void setPadre(Nodo padre) {
+	public void setPadre(Nodo<E> padre) {
 		this.padre = padre;
 		
 	}

@@ -9,10 +9,12 @@ public interface IGrafo<T> {
 	public int recorridoBFS (T nodoInicial) throws Exception;
 	public int recorridoBFS ();
 	public void recorridoDFS();
-	public double [] [] prim();
-	public double [] [] Kruskal();
-	public Nodo Dijkstra  (T nodo1, T nodo2) throws Exception;
-	public Nodo FloydWarshall (T nodo1, T nodo2) throws Exception;
+	public IGrafo<T> prim() throws Exception;
+	public IGrafo<T> Kruskal();
+	public ListaPeso<T> Dijkstra  (T nodo1, T nodo2) throws Exception;
+	public double[][] FloydWarshall () throws Exception;
+	public ArrayList <T> darAdyacentes (T nodo) throws Exception;
+	public T darPadre (T nodo) throws Exception;
 	
 	/*
 	public ArrayList<T> darAdyacentes(Nodo<T> nodo1){
