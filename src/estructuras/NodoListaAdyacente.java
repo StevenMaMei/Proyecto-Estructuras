@@ -43,6 +43,10 @@ public class NodoListaAdyacente<E> extends Nodo<E> implements INodoLista<E>, Com
 	public double darPesoCaminoPrevio(){
 		return pesoCaminoPrevio;
 	}
+	
+	public double darPesoAdyacente(INodoLista<E> n){
+		return pesos.get(n);
+	}
 
 	@Override
 	public int compareTo(NodoListaAdyacente<E> o) {

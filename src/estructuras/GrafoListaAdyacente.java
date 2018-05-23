@@ -81,9 +81,59 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public IGrafo<E> prim() {
-		// TODO Auto-generated method stub
-		return null;
+	public IGrafo<E> prim() throws Exception {
+		int cantEsperada= nodos.size();
+		int cantReal=recorridoBFS();
+		if(cantEsperada!= cantReal)
+			throw new Exception("Grafo no conexo");
+		PriorityQueue<NodoPesoAdyacente<NodoListaAdyacente<E>>> cola = new PriorityQueue<>();
+		GrafoListaAdyacente<E> retorno= new GrafoListaAdyacente<>();
+		HashMap<E, NodoListaAdyacente<E>> nodosNuevos= new HashMap<>();
+		for(E na:nodos.keySet()){
+			NodoListaAdyacente<E> actual = nodos.get(na);
+			E elemActual=actual.getElemento();
+			actual.setRevisado(false);
+			retorno.agregarNodo(elemActual);
+			NodoListaAdyacente<E> nuevo= retorno.darNodo(elemActual);
+			nodosNuevos.put(elemActual, nuevo);
+			ArrayList<NodoListaAdyacente<E>> adyacentes= new ArrayList<>();
+			for(int i=0;i<adyacentes.size();i++){
+				cola.add(new NodoPesoAdyacente<NodoListaAdyacente<E>>(actual, actual.darPesoAdyacente(adyacentes.get(i)),adyacentes.get(i) ));
+			}
+			
+		}
+		NodoPesoAdyacente<NodoListaAdyacente<E>> aristaMenor= cola.poll();
+		NodoListaAdyacente<E> actual= aristaMenor.getNodo();
+		actual.setRevisado(true);
+		retorno.generarArista(actual.getElemento(), aristaMenor.getAdyacente().getElemento(), aristaMenor.getPeso());
+		cola=new PriorityQueue<>();
+		actual=aristaMenor.getAdyacente();
+		
+		while(!cola.isEmpty()){
+			actual.setRevisado(true);
+			ArrayList<NodoListaAdyacente<E>> adyacentes= new ArrayList<>();
+			for(int i=0;i<adyacentes.size();i++){
+				NodoListaAdyacente<E> adyacenteActual= adyacentes.get(i);
+				if(!adyacenteActual.isRevisado()){
+					NodoPesoAdyacente<NodoListaAdyacente<E>> aristaNueva=new NodoPesoAdyacente<NodoListaAdyacente<E>>(actual, actual.darPesoAdyacente(adyacenteActual), adyacenteActual);
+					cola.add(aristaNueva);
+				}
+			}
+			boolean agregada=false;
+			while(!agregada){
+				NodoPesoAdyacente<NodoListaAdyacente<E>> aristaSiguiente= cola.poll();
+				if(!aristaSiguiente.getAdyacente().isRevisado()){
+					retorno.generarArista(aristaSiguiente.getNodo().getElemento(), aristaSiguiente.getAdyacente().getElemento(), aristaSiguiente.getPeso());
+					agregada=true;
+					actual=aristaSiguiente.getAdyacente();
+				}
+			}
+			
+			
+		}
+		
+
+		return retorno;
 	}
 
 	@Override
@@ -134,7 +184,9 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		
 	}
 
-	
+	public NodoListaAdyacente<E> darNodo(E elem){
+		return nodos.get(elem);
+	}
 
 	@Override
 	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
