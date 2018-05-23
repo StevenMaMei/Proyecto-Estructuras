@@ -47,8 +47,8 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		if (indices.get(nodo) != null) {
 			throw new Exception ("El nodo ya existe");
 		}
-		NodoMatriz<E> nuevo = new NodoMatriz<>(nodo, totalNodos++);
-		nodos.put(totalNodos, nuevo);
+		NodoMatriz<E> nuevo = new NodoMatriz<>(nodo, totalNodos);
+		nodos.put(totalNodos++, nuevo);
 		indices.put(nodo, nuevo);
 	}
 
@@ -83,6 +83,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		cola.add(act);
 		act.setRevisado(true);
 		while (!cola.isEmpty()) {
+			recorridos++;
 			NodoMatriz<E> actual = cola.poll();
 			int indice = actual.getPos();
 			for (int i = 0; i < totalNodos; i++) {
@@ -90,7 +91,6 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 				if (matrizAdyacencia[indice][i] != Double.MAX_VALUE && !agregar.isRevisado()) {
 					agregar.setRevisado(true);
 					cola.add(agregar);
-					recorridos++;
 					agregar.setPadre(actual);
 				}
 			}
@@ -141,7 +141,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public IGrafo<E> Kruskal() throws Exception {
+	public GrafoMatriz<E> Kruskal() throws Exception {
 		
 		GrafoMatriz<E> grafoSalida = new GrafoMatriz<>(maxNodos);
 		ConjuntosDisjuntos conjunto = new ConjuntosDisjuntos(maxNodos);
@@ -288,42 +288,46 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		
 		HashMap<Integer, Double> L = new HashMap<>();
 		HashMap<Integer, E> S = new HashMap<>();
+		HashMap<Integer, E> parcial = new HashMap <>();
 		
 		for (int i = 0; i < totalNodos; i++) {
 			L.put(i, matrizAdyacencia[indice1][i]);
+			parcial.put(i, nodos.get(0).getElemento());
 		}
 		
-		NodoMatriz<E> u = n1;
 		while (S.get(n2.getPos()) == null) {
+		
 			double min = Double.MAX_VALUE;
 			int ind = 0;
 			for (int key : L.keySet()) {
-				if (S.get(key) == null && L.get(key) < min) {
+				if (S.get(key) == null && L.get(key) <= min) {
 					min = L.get(key);
 					ind = key;
 				}
-				S.put(ind, (E) u.getElemento());
-				u = nodos.get(ind);
+			}
+				S.put(ind, parcial.get(ind));
 				for (int i = 0; i < totalNodos; i++) {
 					double pes = matrizAdyacencia[ind][i];
 					if (S.get(i) == null) {
 						if (L.get(ind) + pes < L.get(i)) {
 							L.put(i, L.get(ind) + pes);
+							parcial.put(i, nodos.get(ind).getElemento());
 						}
 							
 					}
 				}
-			}
 		}
 		int ind2 = n2.getPos();
 		int act = ind2;
 		if (L.get(ind2) == Double.MAX_VALUE) {
 			throw new Exception ("Es imposible llegar de un nodo al otro");
 		}
+		
+		
 		while (act != indice1) {
-			E elem = S.get(n2);
+			E elem = nodos.get(act).getElemento();
 			camino.addFirst(elem);
-			act = indices.get(elem).getPos();
+			act = indices.get(S.get(act)).getPos();
 		}
 		camino.addFirst(nodo1);
 		
@@ -372,17 +376,32 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 	@Override
 	public E darPadre(E nodo) throws Exception {
-		NodoMatriz<E> act = nodos.get(nodo);
+		NodoMatriz<E> act = indices.get(nodo);
 		if (act == null)
 			throw new Exception ("El nodo no existe");
 		
 		NodoMatriz<E> padre = (NodoMatriz<E>) act.getPadre();
-		return padre.getElemento();
+		E retorno;
+		if (padre == null)
+			retorno = null;
+		else {
+			retorno = padre.getElemento();
+		}
+		return retorno;
 	}
 	
 
 	public boolean estaNodo (E nodo) {
-		return indices.get(nodo) != null;
+		boolean retorno = false;
+		NodoMatriz<E> elNodo = indices.get(nodo);
+		if (elNodo != null) {
+			int pos = elNodo.getPos();
+			retorno = nodos.get(pos) != null;
+		} else {
+			retorno = false;
+		}
+		
+		return retorno;
 	}
 
 
