@@ -146,7 +146,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 		for (int i = 0; i < totalNodos; i++) {
 			try {
-				grafoSalida.agregarNodo((E) nodos.get(i).getElemento());
+				grafoSalida.agregarNodo(nodos.get(i).getElemento());
 				nodos.get(i).setRevisado(false);
 			} catch (Exception e) {
 				e.printStackTrace();
