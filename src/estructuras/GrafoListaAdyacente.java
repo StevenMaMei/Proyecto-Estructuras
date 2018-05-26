@@ -10,8 +10,14 @@ import java.util.Set;
 public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	private HashMap<E, NodoListaAdyacente<E>> nodos;
-	public GrafoListaAdyacente() {
+	
+	int maxNodos;
+	int totalNodos;
+	
+	public GrafoListaAdyacente( int maxNodos) {
 		nodos= new HashMap<>();
+		this.maxNodos = maxNodos;
+		totalNodos = 0;
 	}
 
 	@Override
@@ -87,7 +93,7 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		if(cantEsperada!= cantReal)
 			throw new Exception("Grafo no conexo");
 		PriorityQueue<NodoPesoAdyacente<NodoListaAdyacente<E>>> cola = new PriorityQueue<>();
-		GrafoListaAdyacente<E> retorno= new GrafoListaAdyacente<>();
+		GrafoListaAdyacente<E> retorno= new GrafoListaAdyacente<>(maxNodos); //agrege maxNodos
 		HashMap<E, NodoListaAdyacente<E>> nodosNuevos= new HashMap<>();
 		for(E na:nodos.keySet()){
 			NodoListaAdyacente<E> actual = nodos.get(na);
@@ -137,9 +143,29 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 	}
 
 	@Override
-	public IGrafo<E> Kruskal() {
-		// TODO Auto-generated method stub
-		return null;
+	public GrafoListaAdyacente<E> Kruskal() {
+		
+		GrafoListaAdyacente<E> grafoSalida = new GrafoListaAdyacente<>(maxNodos);
+		ConjuntosDisjuntos conjunto = new ConjuntosDisjuntos(maxNodos);
+		
+		for (int i=0; i< totalNodos ; i++) {
+			try {
+				grafoSalida.agregarNodo((E)nodos.get(i).getElemento());
+				nodos.get(i).setRevisado(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			ArrayList<NodoPesoAdyacente<NodoListaAdyacente<E>>> aristas = new ArrayList<>();
+			
+			//Recorrer la lista de adyacencia
+			
+			
+		}
+		
+		
+		
+		return grafoSalida;
 	}
 
 	@Override
