@@ -190,14 +190,17 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<INodoLista<E>> adyacentes=nodos.get(nodo).darAdyacentes();
+		ArrayList<E> retorno=new ArrayList<>();
+		for(int i=0;i<adyacentes.size();i++){
+			retorno.add(adyacentes.get(i).getElemento());
+		}
+		return retorno;
 	}
 
 	@Override
 	public E darPadre(E nodo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return nodos.get(nodo).getPadre().getElemento();
 	}
 
 	@Override
