@@ -533,5 +533,76 @@ public class testGrafoMatriz {
 			fail("No debe de generar excepcion");
 		}
 	}
+	
+	@Test
+	public void testEliminarNodoNoExiste() {
+		setupEscenario3();
+		try {
+			grafo.eliminarNodo("K");
+			fail ("Debe de lanzar excepcion");
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "El nodo no existe");
+		}
+	}
+	
+	@Test
+	public void testEliminarNodo() {
+		setupEscenario3();
+		try {
+			grafo.eliminarNodo("B");
+			
+			assertFalse(grafo.estaNodo("B"));
+			ArrayList <String> ady = grafo.darAdyacentes("A");
+			assertEquals(ady.size(), 1);
+			assertEquals(ady.get(0), "C");
+			
+			ady = grafo.darAdyacentes("C");
+			assertEquals(ady.size(), 2);
+			assertEquals(ady.get(0), "A");
+			assertEquals(ady.get(1), "E");
+			
+			ady = grafo.darAdyacentes("D");
+			assertEquals(ady.size(), 1);
+			assertEquals(ady.get(0), "E");
+			
+			ady = grafo.darAdyacentes("E");
+			assertEquals(ady.size(), 2);
+			assertEquals(ady.get(0), "C");
+			assertEquals(ady.get(1), "D");
+			
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEliminarAristaExcepcion() {
+		setupEscenario3();
+		try {
+			grafo.eliminarArista("K", "A");
+			fail();
+		} catch (Exception e) {
+			assertEquals(e.getMessage(), "Algunos de los dos nodos no existe");
+		}
+		
+	}
+	
+	@Test
+	public void testEliminarArista() {
+		setupEscenario2();
+		try {
+			grafo.eliminarArista("A", "C");
+			
+			ArrayList <String> x = grafo.darAdyacentes("A");
+			assertEquals(x.size(), 1);
+			assertEquals(x.get(0), "B");
+			
+			x = grafo.darAdyacentes("C");
+			assertEquals(x.size(), 1);
+			assertEquals(x.get(0), "B");
+		} catch (Exception e) {
+			fail();
+		}
+	}
 
 }
