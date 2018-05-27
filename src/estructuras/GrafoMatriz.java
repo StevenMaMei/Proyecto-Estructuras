@@ -146,7 +146,7 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 
 		for (int i = 0; i < totalNodos; i++) {
 			try {
-				grafoSalida.agregarNodo((E) nodos.get(i).getElemento());
+				grafoSalida.agregarNodo(nodos.get(i).getElemento());
 				nodos.get(i).setRevisado(false);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -393,6 +393,41 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		}
 
 		return retorno;
+	}
+
+	@Override
+	public void eliminarNodo(E nodo) throws Exception {
+		NodoMatriz<E> n1 = indices.get(nodo);
+		
+		if (n1 == null)
+			throw new Exception ("El nodo no existe");
+		
+		int el = n1.getPos();
+		for (int i = el + 1; i < totalNodos; i++) {
+			for (int j = 0; j < totalNodos; j++) {
+				matrizAdyacencia[i-1][j] = matrizAdyacencia[i][j];
+				matrizAdyacencia[j][i-1] = matrizAdyacencia[j][i];
+				nodos.put(i-1, nodos.get(i));
+				nodos.get(i).setPos(i-1);
+			}
+		}
+		indices.remove(nodo);
+		nodos.remove(totalNodos--);
+		
+	}
+
+	@Override
+	public void eliminarArista(E nodo1, E nodo2) throws Exception {
+		NodoMatriz<E> node1 = indices.get(nodo1);
+		NodoMatriz<E> node2 = indices.get(nodo2);
+		if (node1 == null || node2 == null)
+			throw new Exception ("Algunos de los dos nodos no existe");
+		int ind1 = node1.getPos();
+		int ind2 = node2.getPos();
+		
+		matrizAdyacencia[ind1][ind2] = Double.MAX_VALUE;
+		matrizAdyacencia[ind2][ind1] = Double.MAX_VALUE;
+		
 	}
 
 }

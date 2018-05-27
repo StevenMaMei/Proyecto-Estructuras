@@ -290,6 +290,18 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		}
 		return retorno;
 	}
+
+	@Override
+	public void eliminarNodo(E nodo) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void eliminarArista(E nodo1, E nodo2) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
