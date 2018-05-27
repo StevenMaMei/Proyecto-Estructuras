@@ -25,6 +25,7 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 	public void agregarNodo(E nodo) throws Exception {
 		NodoListaAdyacente<E> nuevo= new NodoListaAdyacente<E>(nodo);
 		nodos.put(nodo, nuevo);
+		totalNodos++;
 		
 	}
 
