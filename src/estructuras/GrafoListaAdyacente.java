@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
@@ -82,7 +83,32 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
-		// TODO Auto-generated method stub
+		for(E actual: nodos.keySet()){
+			nodos.get(actual).setRevisado(false);
+		}
+		
+		for(E a:nodos.keySet()){
+			NodoListaAdyacente<E> act= nodos.get(a);
+			if(!act.isRevisado()){
+				Stack<NodoListaAdyacente<E>> pila= new Stack<>();
+				pila.push(act);
+				while(!pila.isEmpty()){
+					NodoListaAdyacente<E> actual= pila.pop();
+					if(!actual.isRevisado()){
+						actual.setRevisado(true);
+						ArrayList<INodoLista<E>> adyacentes= actual.darAdyacentes();
+						for(int i=0;i<adyacentes.size();i++){
+							NodoListaAdyacente<E> agregar= (NodoListaAdyacente<E>) adyacentes.get(i);
+							if(!agregar.isRevisado()){
+								pila.push(agregar);
+								agregar.setPadre(actual);
+							}
+						}
+					}
+				}
+				
+			}
+		}
 		
 	}
 
@@ -231,8 +257,38 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public double[][] FloydWarshall() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		double[][] retorno= new double[nodos.size()][nodos.size()];
+		int i=0;
+		for(E a: nodos.keySet()){
+			int j=0;
+			NodoListaAdyacente<E> actual= nodos.get(a);
+			for(E p:nodos.keySet()){
+				NodoListaAdyacente<E> proximo=nodos.get(p);
+				if(proximo==actual){
+					retorno[i][j]=0;
+				}else{
+					Double peso=actual.darPesoAdyacente(proximo);
+					if(peso==null){
+						retorno[i][j]=Double.MAX_VALUE;
+					}else{
+						retorno[i][j]=peso;
+					}
+				}
+				j++;
+			}
+			i++;
+		}
+		
+		for(int k=0;k<retorno.length;k++){
+			for(i=0;i<retorno.length;i++){
+				for(int j=0;j<retorno.length;j++){
+					if(retorno[i][j]>retorno[i][k]+retorno[k][j]){
+						retorno[i][j]=retorno[i][k]+retorno[k][j];
+					}
+				}
+			}
+		}
+		return retorno;
 	}
 	
 	
