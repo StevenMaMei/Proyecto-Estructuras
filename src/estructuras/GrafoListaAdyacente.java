@@ -25,11 +25,7 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void agregarNodo(E nodo) throws Exception {
-<<<<<<< HEAD
-		NodoListaAdyacente<E> nuevo = new NodoListaAdyacente<E>(nodo);
-		nodos.put(nodo, nuevo);
 
-=======
 		NodoListaAdyacente<E> nuevo= new NodoListaAdyacente<E>(nodo);
 		if(nodos.get(nodo)!=null){
 			throw new Exception("Nodo ya existente");
@@ -39,20 +35,15 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		nodos.put(nodo, nuevo);
 		totalNodos++;
 		
->>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
 	}
 
 	@Override
 	public void generarArista(E nodo1, E nodo2, double peso) throws Exception {
 		NodoListaAdyacente<E> n1 = nodos.get(nodo1);
-<<<<<<< HEAD
-		NodoListaAdyacente<E> n2 = nodos.get(nodo2);
-
-=======
 		NodoListaAdyacente<E> n2= nodos.get(nodo2);
 		if(n1==null || n2==null)
 			throw new Exception("Uno de los nodos no existe");
->>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
+
 		n1.agregarAdyacente(n2);
 		n2.agregarAdyacente(n1);
 
@@ -104,10 +95,7 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
-<<<<<<< HEAD
-		// TODO Auto-generated method stub
 
-=======
 		for(E actual: nodos.keySet()){
 			nodos.get(actual).setRevisado(false);
 		}
@@ -135,7 +123,6 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 			}
 		}
 		
->>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
 	}
 
 	@Override
