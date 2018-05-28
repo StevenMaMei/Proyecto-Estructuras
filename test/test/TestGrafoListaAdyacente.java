@@ -1,13 +1,12 @@
 package test;
 
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import java.util.HashMap;
-=======
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
->>>>>>> 6a3e8ccb1d3058d375c6172108b80cffc6e20bce
 import java.util.Iterator;
 import java.util.LinkedList;
 
