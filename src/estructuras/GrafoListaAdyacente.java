@@ -136,31 +136,34 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 			retorno.agregarNodo(elemActual);
 			NodoListaAdyacente<E> nuevo= retorno.darNodo(elemActual);
 			nodosNuevos.put(elemActual, nuevo);
-			ArrayList<NodoListaAdyacente<E>> adyacentes= new ArrayList<>();
+			ArrayList<INodoLista<E>> adyacentes= actual.darAdyacentes();
 			for(int i=0;i<adyacentes.size();i++){
-				cola.add(new NodoPesoAdyacente<NodoListaAdyacente<E>>(actual, actual.darPesoAdyacente(adyacentes.get(i)),adyacentes.get(i) ));
+				
+				cola.add(new NodoPesoAdyacente<NodoListaAdyacente<E>>(actual, actual.darPesoAdyacente((NodoListaAdyacente<E>)adyacentes.get(i)),(NodoListaAdyacente<E>)adyacentes.get(i) ));
 			}
 			
 		}
 		NodoPesoAdyacente<NodoListaAdyacente<E>> aristaMenor= cola.poll();
 		NodoListaAdyacente<E> actual= aristaMenor.getNodo();
-		actual.setRevisado(true);
-		retorno.generarArista(actual.getElemento(), aristaMenor.getAdyacente().getElemento(), aristaMenor.getPeso());
+//		actual.setRevisado(true);
+//		retorno.generarArista(actual.getElemento(), aristaMenor.getAdyacente().getElemento(), aristaMenor.getPeso());
 		cola=new PriorityQueue<>();
-		actual=aristaMenor.getAdyacente();
-		
+//		actual=aristaMenor.getAdyacente();
+		cola.add(aristaMenor);
+
 		while(!cola.isEmpty()){
 			actual.setRevisado(true);
-			ArrayList<NodoListaAdyacente<E>> adyacentes= new ArrayList<>();
+			ArrayList<INodoLista<E>> adyacentes= actual.darAdyacentes();
 			for(int i=0;i<adyacentes.size();i++){
-				NodoListaAdyacente<E> adyacenteActual= adyacentes.get(i);
+				NodoListaAdyacente<E> adyacenteActual= (NodoListaAdyacente<E>) adyacentes.get(i);
 				if(!adyacenteActual.isRevisado()){
 					NodoPesoAdyacente<NodoListaAdyacente<E>> aristaNueva=new NodoPesoAdyacente<NodoListaAdyacente<E>>(actual, actual.darPesoAdyacente(adyacenteActual), adyacenteActual);
 					cola.add(aristaNueva);
 				}
 			}
+			
 			boolean agregada=false;
-			while(!agregada){
+			while(!agregada&&!cola.isEmpty()){
 				NodoPesoAdyacente<NodoListaAdyacente<E>> aristaSiguiente= cola.poll();
 				if(!aristaSiguiente.getAdyacente().isRevisado()){
 					retorno.generarArista(aristaSiguiente.getNodo().getElemento(), aristaSiguiente.getAdyacente().getElemento(), aristaSiguiente.getPeso());
@@ -212,14 +215,19 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		}
 		NodoListaAdyacente<E> n1=nodos.get(nodo1);
 		NodoListaAdyacente<E> n2 = nodos.get(nodo2);
+		if(n1==null || n2==null)
+			throw new Exception("Uno de los nodos no existe");
 		l.put(n1, 0.0);
 		PriorityQueue<NodoListaAdyacente<E>> cola= new PriorityQueue<>();
 		cola.add(n1);
-		while(s.get(n2)== null){
+		boolean encontrado=false;
+		while(s.get(n2)== null&&!cola.isEmpty()){
 			NodoListaAdyacente<E> actual= cola.poll();
 			HashMap<INodoLista<E>, Double> pesosActuales=actual.darPesos();
 			double lActual=l.get(actual);
 			s.put(actual, 0.0);
+			if(actual==n2)
+				encontrado=true;
 			ArrayList<INodoLista<E>> adyacentes = actual.darAdyacentes();
 			for(int i=0;i<adyacentes.size();i++){
 				NodoListaAdyacente<E> adyacenteActual=(NodoListaAdyacente<E>) adyacentes.get(i);
@@ -233,13 +241,16 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 			}
 			
 		}
+		if(!encontrado)
+			throw new Exception("Imposible llegar del nodo1 al nodo2");
 		LinkedList<E> camino= new LinkedList<>();
 		NodoListaAdyacente<E> actual=n2;
 		while(actual!= n1){
 			E elemento= actual.getElemento();
 			camino.addFirst(elemento);
-			actual=nodos.get(elemento);
+			actual=(NodoListaAdyacente<E>) actual.getPadre();
 		}
+		camino.addFirst(n1.getElemento());
 		return new ListaPeso<>(camino, l.get(n2));
 		
 	}
@@ -301,14 +312,25 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void eliminarNodo(E nodo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		NodoListaAdyacente<E> aEliminar=nodos.get(nodo);
+		for(E k:nodos.keySet()){
+			NodoListaAdyacente<E> actual=nodos.get(k);
+			actual.darAdyacentes().remove(aEliminar);
+			actual.darPesos().remove(aEliminar);
+		}
+		nodos.remove(aEliminar);
 	}
 
 	@Override
 	public void eliminarArista(E nodo1, E nodo2) throws Exception {
-		// TODO Auto-generated method stub
+		NodoListaAdyacente<E> n1=nodos.get(nodo1);
+		NodoListaAdyacente<E> n2=nodos.get(nodo2);
 		
+		n1.darAdyacentes().remove(n2);
+		n1.darPesos().remove(n2);
+		
+		n2.darAdyacentes().remove(n1);
+		n2.darPesos().remove(n1);
 	}
 	
 	

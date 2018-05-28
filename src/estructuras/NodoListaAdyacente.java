@@ -14,7 +14,7 @@ public class NodoListaAdyacente<E> extends Nodo<E> implements INodoLista<E>, Com
 		adyacentes= new ArrayList<>();
 		pesos= new HashMap<>();
 	}
-
+	
 	@Override
 	public ArrayList<INodoLista<E>> darAdyacentes() {
 		return (ArrayList<INodoLista<E>>)adyacentes;
