@@ -15,6 +15,8 @@ public interface IGrafo<T> {
 	public double[][] FloydWarshall () throws Exception;
 	public ArrayList <T> darAdyacentes (T nodo) throws Exception;
 	public T darPadre (T nodo) throws Exception;
+	public void eliminarNodo (T nodo) throws Exception;
+	public void eliminarArista (T nodo1, T nodo2) throws Exception;
 	
 	
 }

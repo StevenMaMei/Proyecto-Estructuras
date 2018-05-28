@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
@@ -24,16 +25,34 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void agregarNodo(E nodo) throws Exception {
+<<<<<<< HEAD
 		NodoListaAdyacente<E> nuevo = new NodoListaAdyacente<E>(nodo);
 		nodos.put(nodo, nuevo);
 
+=======
+		NodoListaAdyacente<E> nuevo= new NodoListaAdyacente<E>(nodo);
+		if(nodos.get(nodo)!=null){
+			throw new Exception("Nodo ya existente");
+		}
+		if(totalNodos== maxNodos)
+			throw new Exception("Número máximo de nodos alcanzados");
+		nodos.put(nodo, nuevo);
+		totalNodos++;
+		
+>>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
 	}
 
 	@Override
 	public void generarArista(E nodo1, E nodo2, double peso) throws Exception {
 		NodoListaAdyacente<E> n1 = nodos.get(nodo1);
+<<<<<<< HEAD
 		NodoListaAdyacente<E> n2 = nodos.get(nodo2);
 
+=======
+		NodoListaAdyacente<E> n2= nodos.get(nodo2);
+		if(n1==null || n2==null)
+			throw new Exception("Uno de los nodos no existe");
+>>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
 		n1.agregarAdyacente(n2);
 		n2.agregarAdyacente(n1);
 
@@ -52,6 +71,7 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 			throw new Exception("Nodo existe el nodo");
 		Queue<NodoListaAdyacente<E>> cola = new LinkedList<>();
 		cola.add(actual);
+		encontrados++;
 		actual.setRevisado(true);
 		while (!cola.isEmpty()) {
 			NodoListaAdyacente<E> revisando = cola.poll();
@@ -84,8 +104,38 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public void recorridoDFS() {
+<<<<<<< HEAD
 		// TODO Auto-generated method stub
 
+=======
+		for(E actual: nodos.keySet()){
+			nodos.get(actual).setRevisado(false);
+		}
+		
+		for(E a:nodos.keySet()){
+			NodoListaAdyacente<E> act= nodos.get(a);
+			if(!act.isRevisado()){
+				Stack<NodoListaAdyacente<E>> pila= new Stack<>();
+				pila.push(act);
+				while(!pila.isEmpty()){
+					NodoListaAdyacente<E> actual= pila.pop();
+					if(!actual.isRevisado()){
+						actual.setRevisado(true);
+						ArrayList<INodoLista<E>> adyacentes= actual.darAdyacentes();
+						for(int i=0;i<adyacentes.size();i++){
+							NodoListaAdyacente<E> agregar= (NodoListaAdyacente<E>) adyacentes.get(i);
+							if(!agregar.isRevisado()){
+								pila.push(agregar);
+								agregar.setPadre(actual);
+							}
+						}
+					}
+				}
+				
+			}
+		}
+		
+>>>>>>> 92fb825d0ccf5de7197c95ac33f61296f63f0cf5
 	}
 
 	@Override
@@ -237,20 +287,65 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<INodoLista<E>> adyacentes=nodos.get(nodo).darAdyacentes();
+		ArrayList<E> retorno=new ArrayList<>();
+		for(int i=0;i<adyacentes.size();i++){
+			retorno.add(adyacentes.get(i).getElemento());
+		}
+		return retorno;
 	}
 
 	@Override
 	public E darPadre(E nodo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return nodos.get(nodo).getPadre().getElemento();
 	}
 
 	@Override
 	public double[][] FloydWarshall() throws Exception {
+		double[][] retorno= new double[nodos.size()][nodos.size()];
+		int i=0;
+		for(E a: nodos.keySet()){
+			int j=0;
+			NodoListaAdyacente<E> actual= nodos.get(a);
+			for(E p:nodos.keySet()){
+				NodoListaAdyacente<E> proximo=nodos.get(p);
+				if(proximo==actual){
+					retorno[i][j]=0;
+				}else{
+					Double peso=actual.darPesoAdyacente(proximo);
+					if(peso==null){
+						retorno[i][j]=Double.MAX_VALUE;
+					}else{
+						retorno[i][j]=peso;
+					}
+				}
+				j++;
+			}
+			i++;
+		}
+		
+		for(int k=0;k<retorno.length;k++){
+			for(i=0;i<retorno.length;i++){
+				for(int j=0;j<retorno.length;j++){
+					if(retorno[i][j]>retorno[i][k]+retorno[k][j]){
+						retorno[i][j]=retorno[i][k]+retorno[k][j];
+					}
+				}
+			}
+		}
+		return retorno;
+	}
+
+	@Override
+	public void eliminarNodo(E nodo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	@Override
+	public void eliminarArista(E nodo1, E nodo2) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
