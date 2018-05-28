@@ -17,6 +17,7 @@ public class testGrafoMatriz {
 
 	private void setupEscenario1() {
 		grafo = new GrafoMatriz<>(6);
+		
 	}
 
 	private void setupEscenario2() {
