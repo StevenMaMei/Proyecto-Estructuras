@@ -1,15 +1,19 @@
 package interfaz;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 public class PanelAerolinea extends JPanel implements ActionListener {
 
@@ -21,13 +25,31 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	private ArrayList<String> ciudadesSeleccionadas;
 	private ArrayList<String> relaciones;
 	
+	private JLabel espacio1;
+	private JLabel espacio2;
+	private JLabel espacio3;
+	private JLabel espacio4;
+	
+	
+	
 	public final static String BTON_SELECCIONAR_CIUDADES= "seleCiudades";
 	public final static String BTON_AGREGAR_ESCALAS="agrEscalas";
 	public final static String BTON_FINALIZAR="fnl";
 	
 	public PanelAerolinea(VentanaAreolinea p){
 		principal= p;
-		setLayout(new GridLayout(3, 1));
+		
+		TitledBorder titulo = BorderFactory.createTitledBorder("Aerolinea");
+		titulo.setTitleColor(Color.BLACK);
+		setBorder(titulo);
+		
+		setLayout(new GridLayout(7, 1));
+		
+		espacio1 = new JLabel("");
+		espacio2 = new JLabel("");
+		espacio3 = new JLabel("");
+		espacio4 = new JLabel("");
+		
 		
 		textCantCiudadesSeleccionadas= new JTextField();
 		textCantCiudadesSeleccionadas.setEditable(false);
@@ -47,10 +69,17 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 		btonCrearFinalizar.addActionListener(this);
 		btonCrearFinalizar.setActionCommand(BTON_FINALIZAR);
 		
-		add(btonSeleccionarCiudades);
-		add(btonAgregarEscalas);
-		add(btonCrearFinalizar);
+		btonAgregarEscalas.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
+		btonCrearFinalizar.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
+		btonSeleccionarCiudades.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
 		
+		add(espacio1);
+		add(btonSeleccionarCiudades);
+		add(espacio2);
+		add(btonAgregarEscalas);
+		add(espacio3);
+		add(btonCrearFinalizar);
+		add(espacio4);
 	}
 	
 	public void modificarTextCantCiudades(String m){

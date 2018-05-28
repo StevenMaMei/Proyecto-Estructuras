@@ -1,7 +1,12 @@
 package test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import org.junit.Test;
 
 import estructuras.GrafoListaAdyacente;
 import estructuras.INodoLista;
