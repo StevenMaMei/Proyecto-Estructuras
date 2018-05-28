@@ -3,14 +3,27 @@ package mundo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import estructuras.GrafoListaAdyacente;
+import estructuras.GrafoMatriz;
 import estructuras.IGrafo;
 
 public class Principal {
+	public final static char MATRIZ = 'm';
+	public final static char LISTA = 'l';
+	
+	public final static int IND_TIEMPO = 0;
+	public final static int IND_PRECIO = 1;
+	public final static int IND_DISTANCIA = 2;
+	
 	public final static int POS_CALI = 0;
 	public final static int POS_BS_AIRES = 1;
 	public final static int POS_BRASILIA = 2;
@@ -25,7 +38,7 @@ public class Principal {
 	public final static int POS_PANAMA = 11;
 	public final static int POS_OTTAWA = 12;
 	public final static int POS_SUCRE = 13;
-	public final static int[][] matrizDistancias = {{0, 6495, 3810, 4150, 458, 6025, 1725, 4767, 1319, 3030, 3944, 735, 4669, 2787},
+	public final static int[][] MATRIZ_DISTANCIAS = {{0, 6495, 3810, 4150, 458, 6025, 1725, 4767, 1319, 3030, 3944, 735, 4669, 2787},
 			{6495, 0, 2340, 1139, 4361, 1042, 3138, 280, 5094, 7394, 8399, 5346, 9070, 1862},
 			{3810, 2340, 0, 3014, 3780, 1458, 3173, 2880, 3596, 6839, 6798, 4523, 7364, 1878},
 			{4150, 1139, 3014, 0, 3789, 1560, 2467, 1343, 4902, 6612, 8075, 4791, 8787, 1692},
@@ -40,18 +53,107 @@ public class Principal {
 			{4669, 9070, 7364, 8787, 5079, 8073, 6393, 11229, 3976, 3604, 6944, 4131, 0, 7245},
 			{2787, 1862, 1878, 1692, 2543, 1053, 1481, 1981, 3286, 5652, 6559, 3506, 7245, 0}};
 	
-	public final static Ciudad[] ciudades = {new Ciudad("Cali", 0, 0), new Ciudad("Buenos Aires", 0, 0), new Ciudad("Brasilia", 0, 0),
+	public final static Ciudad[] CIUDADES = {new Ciudad("Cali", 0, 0), new Ciudad("Buenos Aires", 0, 0), new Ciudad("Brasilia", 0, 0),
 			new Ciudad("Santiago de Chile", 0, 0), new Ciudad("Quito", 0, 0), new Ciudad("Asuncion", 0, 0), new Ciudad("Lima", 0, 0),
 			new Ciudad("Montevideo", 0, 0), new Ciudad("Caracas", 0, 0), new Ciudad("Ciudad de Mexico", 0, 0), new Ciudad("Washington", 0, 0),
 			new Ciudad("Panama", 0, 0), new Ciudad("Ottawa", 0, 0), new Ciudad("Sucre", 0, 0)};
 	
 	
-	private HashMap<String, IGrafo<Ciudad>> rutas;
+	private HashSerialisable<String, IGrafo<Ciudad>[] > rutas;
 	private Iterator<String> iteradorHash;
-	private IGrafo<Ciudad> grafoCandidato;
+	private IGrafo<Ciudad> [] grafoCandidato;
+	public char tipoGrafo;
 	
-	public Principal() throws FileNotFoundException, IOException {
+	public Principal(char tipo) throws Exception {
+		tipoGrafo = tipo;
+		File arch = new File("./data/grafo" + tipoGrafo);
+		if (arch.exists()) {
+			ObjectInputStream is = new ObjectInputStream(new FileInputStream(arch));
+			rutas = (HashSerialisable<String, IGrafo<Ciudad>[]>) is.readObject();
+			is.close();
+		} else {
+			rutas = new HashSerialisable<>();
+		}
+		
+		iteradorHash = rutas.keySet().iterator();
+		
+		grafoCandidato = new IGrafo [3];
+		if (tipo == MATRIZ) {
+			for (int i = 0; i < 3; i ++) {
+				grafoCandidato [i] = new GrafoListaAdyacente<>(CIUDADES.length);
+			}
+		} else {
+			for (int i = 0; i < 3; i ++) {
+				grafoCandidato [i] = new GrafoListaAdyacente<>(CIUDADES.length);
+			}
+		}
+		llenarGrafo();
+		
+	}
 	
+	public void llenarGrafo() throws Exception {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < CIUDADES.length; j++) {
+				grafoCandidato[i].agregarNodo(CIUDADES [j]);
+			}
+		}
+	}
+	
+	public void guardaRutas() throws FileNotFoundException, IOException {
+		File arch = new File("./data/grafo" + tipoGrafo);
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arch));
+		os.writeObject(rutas);
+		os.close();
+	}
+	
+	public void cambiarRepresentacion() throws Exception {
+		reiniciarGrafo();
+		
+		File arch = new File("./data/grafo" + tipoGrafo);
+		if (arch.exists()) {
+			ObjectInputStream is = new ObjectInputStream(new FileInputStream(arch));
+			rutas = (HashSerialisable<String, IGrafo<Ciudad>[]>) is.readObject();
+			is.close();
+		} else {
+			rutas = new HashSerialisable<>();
+		}
+		
+		iteradorHash = rutas.keySet().iterator();
+		
+	}
+	
+	public void reiniciarGrafo () throws Exception {
+		if (tipoGrafo == MATRIZ) {
+			tipoGrafo = LISTA;
+			for (int i = 0; i < 3; i ++) {
+				grafoCandidato [i] = new GrafoListaAdyacente<>(CIUDADES.length);
+			}
+		} else {
+			tipoGrafo = MATRIZ;
+			for (int i = 0; i < 3; i ++) {
+				grafoCandidato [i] = new GrafoMatriz<>(CIUDADES.length);
+			}
+		}
+		llenarGrafo();
+	}
+	
+	
+	public void agregarVueloDirecto (int indiceCiudad1, int indiceCiudad2, double precio, double velocidad) throws Exception {
+		grafoCandidato[IND_PRECIO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], precio);
+		grafoCandidato [IND_DISTANCIA].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2]);
+		grafoCandidato [IND_TIEMPO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] * velocidad);
+		
+	}
+	
+	public boolean existeAerolinea (String aerolinea) {
+		return rutas.containsKey(aerolinea);
+	}
+	
+	public void agregarAerolinea (String aerolinea) throws Exception {
+		if (grafoCandidato[0].recorridoBFS() != CIUDADES.length)
+			throw new Exception("Debe de ser posible llegar a todas las ciudades");
+		
+		rutas.put(aerolinea, grafoCandidato);
 	}
 	
 }
