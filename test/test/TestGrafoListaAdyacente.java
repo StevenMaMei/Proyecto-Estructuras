@@ -1,12 +1,18 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import org.junit.Test;
 
 import estructuras.GrafoListaAdyacente;
 import estructuras.INodoLista;
 import estructuras.ListaPeso;
 import estructuras.NodoListaAdyacente;
+
+import static org.junit.Assert.*;
 
 public class TestGrafoListaAdyacente {
 
@@ -277,6 +283,81 @@ public class TestGrafoListaAdyacente {
 			fail("Excepción no esperada");
 		}
 		
+	}
+	
+	@Test
+	public void testDarAdyacentes(){
+		setupEscenario2();
+		try {
+			grafo.darAdyacentes('H');
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("Nodo no encontrado"));
+		}
+		setupEscenario2();
+		try {
+			ArrayList<Character> adyacentes=grafo.darAdyacentes('A');
+			Character[] comparacion={'B','C'};
+			for(int i=0;i<adyacentes.size();i++){
+				assertTrue(adyacentes.get(i)==comparacion[i]);
+			}
+		} catch (Exception e) {
+			fail("Excepción no esperada");
+		}
+		setupEscenario4();
+		try {
+			assertTrue(grafo.darAdyacentes('A').size()==0);
+		} catch (Exception e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testEliminarNodo(){
+		setupEscenario3();
+		try {
+			grafo.eliminarNodo('K');
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("Nodo no existente"));
+		}
+		setupEscenario3();
+		try {
+			NodoListaAdyacente<Character> eliminado=grafo.darNodo('B');
+			grafo.eliminarNodo('B');
+			HashMap<Character, NodoListaAdyacente<Character>> nodos=grafo.darNodos();
+			for(Character actual: nodos.keySet()){
+				assertTrue(actual!= 'B');
+				assertTrue(nodos.get(actual).darPesoAdyacente(eliminado)==null);
+			}
+		} catch (Exception e) {
+			fail();
+			
+		}
+	}
+	
+	@Test
+	public void testEliminarArista(){
+		setupEscenario3();
+		try {
+			grafo.eliminarArista('K', 'A');
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("Arista o nodo no existente"));
+		}
+		setupEscenario2();
+		try {
+			grafo.eliminarArista('A', 'C');
+			HashMap<Character, NodoListaAdyacente<Character>> nodos=grafo.darNodos();
+			NodoListaAdyacente<Character> nodo1=grafo.darNodo('A');
+			NodoListaAdyacente<Character> nodo2=grafo.darNodo('C');
+			assertTrue(nodo1.darPesoAdyacente(nodo2)==null);
+			assertTrue(nodo1.darAdyacentes().contains(nodo2)==false);
+			assertTrue(nodo2.darPesoAdyacente(nodo1)==null);
+			assertTrue(nodo2.darAdyacentes().contains(nodo1)==false);
+		} catch (Exception e) {
+			fail();
+		}
 	}
 	
 

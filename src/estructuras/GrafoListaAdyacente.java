@@ -22,6 +22,10 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		this.maxNodos = maxNodos;
 		totalNodos = 0;
 	}
+	
+	public HashMap<E, NodoListaAdyacente<E>> darNodos(){
+		return nodos;
+	}
 
 	@Override
 	public void agregarNodo(E nodo) throws Exception {
@@ -286,7 +290,10 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 
 	@Override
 	public ArrayList<E> darAdyacentes(E nodo) throws Exception {
+		if(nodos.get(nodo)== null)
+			throw new Exception("Nodo no encontrado");
 		ArrayList<INodoLista<E>> adyacentes=nodos.get(nodo).darAdyacentes();
+		
 		ArrayList<E> retorno=new ArrayList<>();
 		for(int i=0;i<adyacentes.size();i++){
 			retorno.add(adyacentes.get(i).getElemento());
@@ -338,18 +345,22 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 	@Override
 	public void eliminarNodo(E nodo) throws Exception {
 		NodoListaAdyacente<E> aEliminar=nodos.get(nodo);
+		if(aEliminar==null)
+			throw new Exception("Nodo no existente");
 		for(E k:nodos.keySet()){
 			NodoListaAdyacente<E> actual=nodos.get(k);
 			actual.darAdyacentes().remove(aEliminar);
 			actual.darPesos().remove(aEliminar);
 		}
-		nodos.remove(aEliminar);
+		nodos.remove(nodo);
 	}
 
 	@Override
 	public void eliminarArista(E nodo1, E nodo2) throws Exception {
 		NodoListaAdyacente<E> n1=nodos.get(nodo1);
 		NodoListaAdyacente<E> n2=nodos.get(nodo2);
+		if(n1==null || n2==null||n1.darPesoAdyacente(n2)==null )
+			throw new Exception("Arista o nodo no existente");
 		
 		n1.darAdyacentes().remove(n2);
 		n1.darPesos().remove(n2);
