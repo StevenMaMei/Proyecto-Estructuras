@@ -1,10 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import estructuras.GrafoListaAdyacente;
+import estructuras.INodoLista;
+import estructuras.ListaPeso;
+import estructuras.NodoListaAdyacente;
 
 public class TestGrafoListaAdyacente {
 
@@ -170,6 +172,111 @@ public class TestGrafoListaAdyacente {
 		assertTrue(grafo.darNodo('E').getPadre().getElemento()=='C');
 		assertTrue(grafo.darNodo('D').getPadre().getElemento()=='E');
 		assertTrue(grafo.darNodo('B').getPadre().getElemento()=='D');
+	}
+	
+	@Test
+	public void testPrim(){
+		setupEscenario2();
+		try {
+			grafo.prim();
+			fail("Excepción expectada");
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("Grafo no conexo"));
+		}
+		setupEscenario3();
+		try {
+			GrafoListaAdyacente<Character> g=(GrafoListaAdyacente<Character>) grafo.prim();
+			assertTrue(g.darNodo('A').darPesoAdyacente(g.darNodo('C'))!= null);
+			assertTrue(g.darNodo('A').darAdyacentes().size()==1);
+			
+			assertTrue(g.darNodo('B').darPesoAdyacente(g.darNodo('C'))!= null);
+			assertTrue(g.darNodo('B').darPesoAdyacente(g.darNodo('D'))!= null);
+			assertTrue(g.darNodo('B').darAdyacentes().size()==2);
+			
+			assertTrue(g.darNodo('C').darPesoAdyacente(g.darNodo('A'))!= null);
+			assertTrue(g.darNodo('C').darPesoAdyacente(g.darNodo('B'))!= null);
+			assertTrue(g.darNodo('C').darPesoAdyacente(g.darNodo('E'))!= null);
+			assertTrue(g.darNodo('C').darAdyacentes().size()==3);
+			
+			assertTrue(g.darNodo('D').darPesoAdyacente(g.darNodo('B'))!= null);
+			assertTrue(g.darNodo('A').darAdyacentes().size()==1);
+			
+			assertTrue(g.darNodo('E').darPesoAdyacente(g.darNodo('C'))!= null);
+			assertTrue(g.darNodo('A').darAdyacentes().size()==1);
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			fail("No se espera excepción");
+		}
+	}
+	
+	@Test
+	public void testDijkstra(){
+		setupEscenario3();
+		try {
+			grafo.Dijkstra('A', 'H');
+			fail("Debe haber una excepción");
+		} catch (Exception e) {
+			e.getMessage().equals("Uno de los nodos no existe");
+		}
+		setupEscenario3();
+		try {
+			ListaPeso r=grafo.Dijkstra('A', 'D');
+			assertTrue(r.getTotal()==9.0);
+			LinkedList<Character> camino=r.getList();
+			assertTrue(camino.size()==4);
+			Character[] comparacion={'A','C','E','D'};
+			Iterator<Character> it=camino.iterator();
+			int i=0;
+			while(it.hasNext()){
+				assertTrue(comparacion[i]==it.next());
+				i++;
+			}
+			
+		} catch (Exception e) {
+			fail("No debe haber excepción");
+		}
+		setupEscenario2();
+		try {
+			grafo.Dijkstra('A', 'D');
+			fail("Excepción esperada");
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("Imposible llegar del nodo1 al nodo2"));
+		}
+	}
+	
+	@Test
+	public void testFloyd(){
+		setupEscenario3();
+		double[][] comparacion={{0.0,5.0,3.0,9.0,4.0},{5.0,0.0,2.0,4.0,3.0},{3.0,2.0,0.0,6.0,1.0},{9.0,4.0,6.0,0.0,5.0},
+				{4.0,3.0,1.0,5.0,0.0}};
+		try {
+			double[][] r=grafo.FloydWarshall();
+			for(int i=0;i<comparacion.length;i++){
+				for(int j=0;j<comparacion.length;j++){
+					assertTrue(r[i][j]==comparacion[i][j]);
+				}
+			}
+		} catch (Exception e) {
+			fail("Excepción no esperada");
+		}
+		
+		setupEscenario2();
+		double[][] comparacion2={{0.0,5.0,3.0,Double.MAX_VALUE,Double.MAX_VALUE},{5.0,0.0,2.0,Double.MAX_VALUE,Double.MAX_VALUE},
+				{3.0,2.0,0.0,Double.MAX_VALUE,Double.MAX_VALUE},{Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE,0.0,5.0},
+				{Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE,5.0,0.0}};
+		try {
+			double[][] r= grafo.FloydWarshall();
+			for(int i=0;i<comparacion2.length;i++){
+				for(int j=0;j<comparacion2.length;j++){
+					assertTrue(r[i][j]==comparacion2[i][j]);
+				}
+			}
+		} catch (Exception e) {
+			fail("Excepción no esperada");
+		}
+		
 	}
 	
 
