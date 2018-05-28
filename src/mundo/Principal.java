@@ -11,10 +11,12 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import estructuras.GrafoListaAdyacente;
 import estructuras.GrafoMatriz;
 import estructuras.IGrafo;
+import estructuras.ListaPeso;
 
 public class Principal {
 	public final static char MATRIZ = 'm';
@@ -143,6 +145,70 @@ public class Principal {
 		grafoCandidato [IND_DISTANCIA].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2]);
 		grafoCandidato [IND_TIEMPO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] * velocidad);
 		
+	}
+	
+	public void eliminarVueloDirecto(int indiceCiudad1,int indiceCiudad2) throws Exception{
+		grafoCandidato[IND_PRECIO].eliminarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		grafoCandidato[IND_DISTANCIA].eliminarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		grafoCandidato[IND_TIEMPO].eliminarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		
+	}
+	/**
+	 * La primer posición del arreglo es el precio
+	 * @param indiceCiudad1
+	 * @param indiceCiudad2
+	 * @return
+	 * @throws Exception
+	 */
+	public String[] darRutaMasEconomica(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		ListaPeso<Ciudad> camino= grafoCandidato[IND_PRECIO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		String[] retorno= new String[camino.getList().size()+1];
+		retorno[0]=camino.getTotal()+"";
+		Iterator<Ciudad> it= camino.getList().iterator();
+		int i=1;
+		while(it.hasNext()){
+			retorno[i]=it.next().getNombreCiudad();
+			i++;
+		}
+		return retorno;
+	}
+	/**
+	 * Primera posición es la distancia
+	 * @param indiceCiudad1
+	 * @param indiceCiudad2
+	 * @return
+	 * @throws Exception
+	 */
+	public String[] darRutaMasCorta(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		ListaPeso<Ciudad> camino= grafoCandidato[IND_DISTANCIA].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		String[] retorno= new String[camino.getList().size()+1];
+		retorno[0]=camino.getTotal()+"";
+		Iterator<Ciudad> it= camino.getList().iterator();
+		int i=1;
+		while(it.hasNext()){
+			retorno[i]=it.next().getNombreCiudad();
+			i++;
+		}
+		return retorno;
+	}
+	/**
+	 * Primer posición es el tiempo
+	 * @param indiceCiudad1
+	 * @param indiceCiudad2
+	 * @return
+	 * @throws Exception
+	 */
+	public String[] darRutaMasRapida(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		ListaPeso<Ciudad> camino= grafoCandidato[IND_TIEMPO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+		String[] retorno= new String[camino.getList().size()+1];
+		retorno[0]=camino.getTotal()+"";
+		Iterator<Ciudad> it= camino.getList().iterator();
+		int i=1;
+		while(it.hasNext()){
+			retorno[i]=it.next().getNombreCiudad();
+			i++;
+		}
+		return retorno;
 	}
 	
 	public boolean existeAerolinea (String aerolinea) {
