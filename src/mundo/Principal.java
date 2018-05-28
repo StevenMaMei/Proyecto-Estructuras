@@ -47,7 +47,8 @@ public class Principal {
 	
 	
 	private HashMap<String, IGrafo<Ciudad>> rutas;
-	Iterator<String> iteradorHash;
+	private Iterator<String> iteradorHash;
+	private IGrafo<Ciudad> grafoCandidato;
 	
 	public Principal() throws FileNotFoundException, IOException {
 	
