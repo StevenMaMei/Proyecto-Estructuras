@@ -9,6 +9,7 @@ public class VentanaAreolinea extends JFrame {
 	private PanelUsuario panelUsuario;
 	private PanelAerolinea panelAereolinea;
 	private PanelBanner panelBanner;
+	private PanelMapa panelMapa;
 	
 	
 	
@@ -19,10 +20,13 @@ public class VentanaAreolinea extends JFrame {
 		panelUsuario= new PanelUsuario(this);
 		panelAereolinea= new PanelAerolinea(this);
 		panelBanner = new PanelBanner();
+		panelMapa = new PanelMapa();
+		
 		
 		add(panelBanner, BorderLayout.NORTH);
-		add(panelAereolinea,BorderLayout.EAST);
+		add(panelAereolinea,BorderLayout.WEST);
 		add(panelUsuario, BorderLayout.CENTER);
+		add(panelMapa, BorderLayout.EAST);
 		pack();
 		
 	}
