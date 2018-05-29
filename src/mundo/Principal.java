@@ -232,5 +232,29 @@ public class Principal {
 		}
 		return graf;
 	}
+
+	public HashSerialisable<String, IGrafo<Ciudad>[]> getRutas() {
+		return rutas;
+	}
+
+	public void setRutas(HashSerialisable<String, IGrafo<Ciudad>[]> rutas) {
+		this.rutas = rutas;
+	}
+
+	public Iterator<String> getIteradorHash() {
+		return iteradorHash;
+	}
+
+	public void setIteradorHash(Iterator<String> iteradorHash) {
+		this.iteradorHash = iteradorHash;
+	}
+
+	public IGrafo<Ciudad>[] getGrafoCandidato() {
+		return grafoCandidato;
+	}
+
+	public void setGrafoCandidato(IGrafo<Ciudad>[] grafoCandidato) {
+		this.grafoCandidato = grafoCandidato;
+	}
 	
 }
