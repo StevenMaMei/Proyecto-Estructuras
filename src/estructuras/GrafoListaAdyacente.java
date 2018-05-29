@@ -1,5 +1,6 @@
 package estructuras;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
-public class GrafoListaAdyacente<E> implements IGrafo<E> {
+public class GrafoListaAdyacente<E> implements IGrafo<E>, Serializable {
 
 	private HashMap<E, NodoListaAdyacente<E>> nodos;
 
@@ -367,6 +368,16 @@ public class GrafoListaAdyacente<E> implements IGrafo<E> {
 		
 		n2.darAdyacentes().remove(n1);
 		n2.darPesos().remove(n1);
+	}
+
+	@Override
+	public double darPeso(E nodo1, E nodo2) throws Exception {
+		NodoListaAdyacente<E> n1=nodos.get(nodo1);
+		NodoListaAdyacente<E> n2=nodos.get(nodo2);
+		if(n1==null || n2==null||n1.darPesoAdyacente(n2)==null )
+			throw new Exception("Arista o nodo no existente");
+		
+		return n1.darPesos().get(n2);
 	}
 
 }

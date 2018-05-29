@@ -1,5 +1,6 @@
 package estructuras;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
-public class GrafoMatriz<E> implements IGrafo<E> {
+public class GrafoMatriz<E> implements IGrafo<E>, Serializable {
 
 	private double[][] matrizAdyacencia;
 	private HashMap<Integer, NodoMatriz<E>> nodos;
@@ -428,6 +429,18 @@ public class GrafoMatriz<E> implements IGrafo<E> {
 		matrizAdyacencia[ind1][ind2] = Double.MAX_VALUE;
 		matrizAdyacencia[ind2][ind1] = Double.MAX_VALUE;
 		
+	}
+
+	@Override
+	public double darPeso(E nodo1, E nodo2) throws Exception {
+		NodoMatriz<E> node1 = indices.get(nodo1);
+		NodoMatriz<E> node2 = indices.get(nodo2);
+		if (node1 == null || node2 == null)
+			throw new Exception ("Algunos de los dos nodos no existe");
+		int ind1 = node1.getPos();
+		int ind2 = node2.getPos();
+		
+		return matrizAdyacencia [ind1][ind2];
 	}
 
 }

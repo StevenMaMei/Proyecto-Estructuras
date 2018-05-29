@@ -1,6 +1,8 @@
 package estructuras;
 
-public abstract class Nodo<E> implements INodo<E> {
+import java.io.Serializable;
+
+public abstract class Nodo<E> implements INodo<E>, Serializable {
 	
 	private boolean revisado;
 	

@@ -17,6 +17,7 @@ public interface IGrafo<T> {
 	public T darPadre (T nodo) throws Exception;
 	public void eliminarNodo (T nodo) throws Exception;
 	public void eliminarArista (T nodo1, T nodo2) throws Exception;
+	public double darPeso (T nodo1, T nodo2) throws Exception;
 	
 	
 }
