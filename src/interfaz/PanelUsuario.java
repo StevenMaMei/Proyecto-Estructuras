@@ -136,10 +136,20 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		String partida= ciudadesActuales.getSelectedItem().toString();
 		String destino= ciudadesDestino.getSelectedItem().toString();
 		if(comando.equals(BTON_DISTANCIA)){
+			VentanaListaDistancia ventDis = new VentanaListaDistancia();
+			ventDis.setVisible(true);
+			
+			
 			
 		}else if(comando.equals(BTON_PRECIO)){
 			
+			VentanaListaPrecio ventPre = new VentanaListaPrecio();
+			ventPre.setVisible(true );
+			
 		}else if(comando.equals(BTON_TIEMPO)){
+			
+			VentanaListaTiempo ventTiemp = new VentanaListaTiempo();
+			ventTiemp.setVisible(true);
 			
 		}
 		

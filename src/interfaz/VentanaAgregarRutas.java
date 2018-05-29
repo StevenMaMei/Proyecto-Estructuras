@@ -45,7 +45,9 @@ public class VentanaAgregarRutas extends JFrame{
 	
 	}
 
-	
+	public void cerrar() {
+		dispose();
+	}
 	
 	
 }

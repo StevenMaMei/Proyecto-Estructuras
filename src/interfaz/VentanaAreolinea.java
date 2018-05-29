@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import mundo.Principal;
+
 public class VentanaAreolinea extends JFrame {
 
 	private PanelUsuario panelUsuario;
@@ -11,7 +13,7 @@ public class VentanaAreolinea extends JFrame {
 	private PanelBanner panelBanner;
 	private PanelMapa panelMapa;
 	
-	
+	private Principal conexion;
 	
 	public VentanaAreolinea(){
 		setLayout(new BorderLayout());
@@ -39,6 +41,31 @@ public class VentanaAreolinea extends JFrame {
 	//TODO
 	public String[] darCiudades(){
 		return null;
+	}
+	
+	
+	
+	//Listas companias 
+	
+	public String[][] listaDistancia(){
+		String [][] matriz = null;
+		//conexion.
+		return matriz;
+	}
+	
+	
+	public String[][] listaPrecio(){
+		String [][] matriz = null;
+		
+		
+		
+		return matriz;
+	}
+	
+	public String[][] listaTiempo(){
+		String [][] matriz = null;
+		
+		return matriz;
 	}
 	
 	
