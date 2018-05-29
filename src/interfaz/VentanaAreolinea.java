@@ -35,8 +35,5 @@ public class VentanaAreolinea extends JFrame {
 		return null;
 	}
 	
-	public static void main(String[] args){
-		VentanaAreolinea ven= new VentanaAreolinea();
-		ven.setVisible(true);
-	}
+	
 }
