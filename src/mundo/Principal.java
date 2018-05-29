@@ -71,9 +71,9 @@ public class Principal {
 	public char tipoGrafo;
 
 	/**
-	 * Inicializa el mundo con el parametro
-	 * @param tipo
-	 * @throws Exception
+	 * Inicializa el mundo con el tipo de grafo que el usuario indica en la primera pantalla de la interfaz.
+	 * @param tipo El tipo de grafo que se va a utiliza, MATRIZ o LISTA. Es una de las dos constantes definidas en esta clase
+	 * @throws Exception Si hubo algun error en la lectura de archivos.
 	 */
 	public Principal(char tipo) throws Exception {
 		tipoGrafo = tipo;
@@ -107,6 +107,11 @@ public class Principal {
 
 	}
 
+	
+	/**
+	 * Llena el grafo candidato con todas las ciudades.
+	 * @throws Exception Lanza excepcion si el grafo está lleno
+	 */
 	public void llenarGrafo() throws Exception {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < CIUDADES.length; j++) {
@@ -115,6 +120,13 @@ public class Principal {
 		}
 	}
 
+	
+	/**
+	 * Guarda en dos archivos serializables diferentes los HashMap con los grafos por matriz
+	 * y grafo por Lista
+	 * @throws FileNotFoundException Alguno de los dos archivos no existe	
+	 * @throws IOException Hubo un fallo en la lectura
+	 */
 	public void guardaRutas() throws FileNotFoundException, IOException {
 		File arch = new File("./data/grafo" + MATRIZ);
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arch));
@@ -127,6 +139,11 @@ public class Principal {
 		os.close();
 	}
 
+	/**
+	 * Cambia la representacion del grafo. Si era por lista, pasa a ser por matriz. Si era por 
+	 * matriz, pasa a ser por lista.
+	 * @throws Exception Hubo un error generando las aristas del grafo.
+	 */
 	public void cambiarRepresentacion() throws Exception {
 		if (tipoGrafo == LISTA) {
 			tipoGrafo = MATRIZ;
@@ -147,6 +164,11 @@ public class Principal {
 		}
 	}
 
+	/**
+	 * Borra la informacion que se tiene guardada del grafo candidato a ser agregado para empezar
+	 * a construir uno nuevo.
+	 * @throws Exception
+	 */
 	public void reiniciarGrafo() throws Exception {
 		if (tipoGrafo == LISTA) {
 			for (int i = 0; i < 3; i++) {
@@ -160,6 +182,16 @@ public class Principal {
 		llenarGrafo();
 	}
 
+	/**
+	 * Agrega un nuevo vuelo directo en el grafo candidato a ser agregado a a los planes de vuelo
+	 * @param indiceCiudad1 El indice que le corresponde a la primera ciudad. Es una de las constantes
+	 * definidas en esta clase.
+	 * @param indiceCiudad2 El indice que le corresponde a la segunda ciudad. Es una de las constantes
+	 * definidas en esta clase.
+	 * @param precio El precio del vuelo
+	 * @param velocidad La velocidad a la que van los vuelos de la compañía.
+	 * @throws Exception Error en el gafo generando las aristas.
+	 */
 	public void agregarVueloDirecto(int indiceCiudad1, int indiceCiudad2, double precio, double velocidad)
 			throws Exception {
 		grafoCandidato[IND_PRECIO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2], precio);
@@ -170,6 +202,12 @@ public class Principal {
 
 	}
 
+	/**
+	 * Elimina un vuelo directo en el grafo que era candidato a ser agregado en una compañía.
+	 * @param indiceCiudad1 El indice de la ciudad 1 a ser eliminada. Es una de las constantes de esta clase.
+	 * @param indiceCiudad2 El indice de la ciudad 2 a ser eliminada. Es una de las constantes de esta clase.
+	 * @throws Exception Error en el grafo generando las aristas
+	 */
 	public void eliminarVueloDirecto(int indiceCiudad1, int indiceCiudad2) throws Exception {
 		grafoCandidato[IND_PRECIO].eliminarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
 		grafoCandidato[IND_DISTANCIA].eliminarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
@@ -178,12 +216,15 @@ public class Principal {
 	}
 
 	/**
-	 * La primer posición del arreglo es el precio
+	 * Genera una matriz con la ruta más economica de cada compañía para llegar de la ciudad identificada
+	 * con el indice 1 a la identificada con el indice 2. Para cada fila, la primera posicion es el nombre
+	 * de la compañía, la segunda es el precio del trayecto, y el resto de pocisiones son el nombre de las
+	 * ciudades por las que pasará el avión.
 	 * 
-	 * @param indiceCiudad1
-	 * @param indiceCiudad2
-	 * @return
-	 * @throws Exception
+	 * @param indiceCiudad1 El indice de la ciudad 1 a donde comenzará el viaje. Es una de las constantes de esta clase.
+	 * @param indiceCiudad2 El indice de la ciudad 2 a terminará el viaje. Es una de las constantes de esta clase.
+	 * @return La matriz indicada
+	 * @throws Exception Error generado por los grafos.
 	 */
 	public String[][] darRutaMasEconomica(int indiceCiudad1, int indiceCiudad2) throws Exception {
 		String[][] retorno;
@@ -225,12 +266,15 @@ public class Principal {
 	}
 
 	/**
-	 * Primera posición es la distancia
+	 * Genera una matriz con la ruta más corta de cada compañía para llegar de la ciudad identificada
+	 * con el indice 1 a la identificada con el indice 2. Para cada fila, la primera posicion es el nombre
+	 * de la compañía, la segunda es la distancia total del trayecto, y el resto de pocisiones son el nombre de las
+	 * ciudades por las que pasará el avión.
 	 * 
-	 * @param indiceCiudad1
-	 * @param indiceCiudad2
-	 * @return
-	 * @throws Exception
+		 * @param indiceCiudad1 El indice de la ciudad 1 a donde comenzará el viaje. Es una de las constantes de esta clase.
+	 * @param indiceCiudad2 El indice de la ciudad 2 a terminará el viaje. Es una de las constantes de esta clase.
+	 * @return La matriz indicada
+	 * @throws Exception Error generado por los grafos.
 	 */
 	public String[][] darRutaMasCorta(int indiceCiudad1, int indiceCiudad2) throws Exception {
 		String[][] retorno;
@@ -273,12 +317,15 @@ public class Principal {
 	}
 
 	/**
-	 * Primer posición es el tiempo
+	 * Genera una matriz con la ruta más rápida de cada compañía para llegar de la ciudad identificada
+	 * con el indice 1 a la identificada con el indice 2. Para cada fila, la primera posicion es el nombre
+	 * de la compañía, la segunda es el tiempo total del trayecto, y el resto de pocisiones son el nombre de las
+	 * ciudades por las que pasará el avión.
 	 * 
-	 * @param indiceCiudad1
-	 * @param indiceCiudad2
-	 * @return
-	 * @throws Exception
+		 * @param indiceCiudad1 El indice de la ciudad 1 a donde comenzará el viaje. Es una de las constantes de esta clase.
+	 * @param indiceCiudad2 El indice de la ciudad 2 a terminará el viaje. Es una de las constantes de esta clase.
+	 * @return La matriz indicada
+	 * @throws Exception Error generado por los grafos.
 	 */
 	public String[][] darRutaMasRapida(int indiceCiudad1, int indiceCiudad2) throws Exception {
 		String[][] retorno;
@@ -320,10 +367,21 @@ public class Principal {
 		return retorno;
 	}
 
+	/**
+	 * Indica si la aerolinea ya tiene registrado un sistema de vuelos.
+	 * @param aerolinea El nombre de la aerolinea
+	 * @return true si lo tiene, false en caso contrario
+	 */
 	public boolean existeAerolinea(String aerolinea) {
 		return rutasMatriz.containsKey(aerolinea);
 	}
 
+	/**
+	 * Agrega el grafo candidato al HashMap con el registro de vuelos de cada compañía.
+	 * @param aerolinea El nombre de al aerolinea que se va a registrar.
+	 * @throws Exception Si el grafo no es conexo, lanza excepcion ya que todas las ciudades
+	 * deben estar conectadas de alguna forma para ser agregadas al plan de vuelo.
+	 */
 	public void agregarAerolinea(String aerolinea) throws Exception {
 		if (grafoCandidato[0].recorridoBFS() != CIUDADES.length)
 			throw new Exception("Debe de ser posible llegar a todas las ciudades");
@@ -340,6 +398,11 @@ public class Principal {
 		cambiarRepresentacion();
 	}
 
+	/**
+	 * Retorna el siguiente grafo registrado de plan de vuelos dentro de la compañía para ser dibujado
+	 * en el mapa. Si ya está en el último, regresa al primero.
+	 * @return
+	 */
 	public IGrafo<Ciudad> siguienteGrafoCompania() {
 		IGrafo<Ciudad> graf = null;
 		if (iteradorHash.hasNext()) {
