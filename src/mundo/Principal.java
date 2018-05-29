@@ -222,4 +222,15 @@ public class Principal {
 		rutas.put(aerolinea, grafoCandidato);
 	}
 	
+	public IGrafo<Ciudad> siguienteGrafoCompania(){
+		IGrafo<Ciudad> graf = null;
+		if (iteradorHash.hasNext()) {
+			graf = rutas.get(iteradorHash.next())[0];
+		} else {
+			iteradorHash = rutas.keySet().iterator();
+			graf = rutas.get(iteradorHash.next())[0];
+		}
+		return graf;
+	}
+	
 }
