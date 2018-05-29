@@ -11,7 +11,7 @@ public class VentanaAreolinea extends JFrame {
 	private PanelUsuario panelUsuario;
 	private PanelAerolinea panelAereolinea;
 	private PanelBanner panelBanner;
-	private PanelMapa panelMapa;
+	private PanelMapaBoton panelMapa;
 	
 	private Principal conexion;
 	
@@ -28,7 +28,7 @@ public class VentanaAreolinea extends JFrame {
 		panelUsuario= new PanelUsuario(this);
 		panelAereolinea= new PanelAerolinea(this);
 		panelBanner = new PanelBanner();
-		panelMapa = new PanelMapa();
+		panelMapa = new PanelMapaBoton(this);
 		
 		
 		add(panelBanner, BorderLayout.NORTH);
