@@ -61,28 +61,35 @@ public class Principal {
 			new Ciudad("Panama", 0, 0), new Ciudad("Ottawa", 0, 0), new Ciudad("Sucre", 0, 0)};
 	
 	
-	private HashSerialisable<String, IGrafo<Ciudad>[] > rutas;
+	private HashSerialisable<String, GrafoMatriz<Ciudad>[] > rutasMatriz;
+	private HashSerialisable<String, GrafoListaAdyacente<Ciudad> []> rutasLista;
+	
 	private Iterator<String> iteradorHash;
 	private IGrafo<Ciudad> [] grafoCandidato;
 	public char tipoGrafo;
 	
 	public Principal(char tipo) throws Exception {
 		tipoGrafo = tipo;
-		File arch = new File("./data/grafo" + tipoGrafo);
+		File arch = new File("./data/grafo" + MATRIZ);
 		if (arch.exists()) {
 			ObjectInputStream is = new ObjectInputStream(new FileInputStream(arch));
-			rutas = (HashSerialisable<String, IGrafo<Ciudad>[]>) is.readObject();
+			rutasMatriz = (HashSerialisable<String, GrafoMatriz<Ciudad>[]>) is.readObject();
+			
+			arch = new File ("./data/grafo" + LISTA);
+			is = new ObjectInputStream(new FileInputStream(arch));
+			rutasLista = (HashSerialisable<String, GrafoListaAdyacente<Ciudad>[]>) is.readObject();
 			is.close();
 		} else {
-			rutas = new HashSerialisable<>();
+			rutasMatriz = new HashSerialisable<>();
+			rutasLista = new HashSerialisable<>();
 		}
 		
-		iteradorHash = rutas.keySet().iterator();
+		iteradorHash = rutasMatriz.keySet().iterator();
 		
 		grafoCandidato = new IGrafo [3];
 		if (tipo == MATRIZ) {
 			for (int i = 0; i < 3; i ++) {
-				grafoCandidato [i] = new GrafoListaAdyacente<>(CIUDADES.length);
+				grafoCandidato [i] = new GrafoMatriz<>(CIUDADES.length);
 			}
 		} else {
 			for (int i = 0; i < 3; i ++) {
@@ -102,19 +109,29 @@ public class Principal {
 	}
 	
 	public void guardaRutas() throws FileNotFoundException, IOException {
-		File arch = new File("./data/grafo" + tipoGrafo);
+		File arch = new File("./data/grafo" + MATRIZ);
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arch));
-		os.writeObject(rutas);
+		os.writeObject(rutasMatriz);
+		
+		arch = new File("./data/grafo" + LISTA);
+		os = new ObjectOutputStream(new FileOutputStream(arch));
+		os.writeObject(rutasLista);
+		
 		os.close();
 	}
 	
 	public void cambiarRepresentacion() throws Exception {
 		reiniciarGrafo();
 		
-		File arch = new File("./data/grafo" + tipoGrafo);
+		File arch = new File("./data/grafo" + MATRIZ);
 		if (arch.exists()) {
 			ObjectInputStream is = new ObjectInputStream(new FileInputStream(arch));
-			rutas = (HashSerialisable<String, IGrafo<Ciudad>[]>) is.readObject();
+			rutasMatriz = (HashSerialisable<String, GrafoMatriz<Ciudad>[]>) is.readObject();
+			
+			arch = new File("./data/grafo" + LISTA);
+			is = new ObjectInputStream(new FileInputStream(arch));
+			rutasLista = (HashSerialisable<String, GrafoListaAdyacente<Ciudad>[]>) is.readObject();
+			
 			is.close();
 		} else {
 			rutas = new HashSerialisable<>();
