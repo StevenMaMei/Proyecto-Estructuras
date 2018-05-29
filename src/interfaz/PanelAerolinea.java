@@ -11,12 +11,16 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class PanelAerolinea extends JPanel implements ActionListener {
 
+	private String nombreAerolinea ;
+	private double velocidadVuelos;
+	
 	private VentanaAreolinea principal;
 	private JTextField textCantCiudadesSeleccionadas;
 	private JButton btonSeleccionarCiudades;
@@ -98,12 +102,44 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 		if(BTON_SELECCIONAR_CIUDADES.equals(c)){
 			PanelSeleccionadorCiudades p= new PanelSeleccionadorCiudades(principal, this);
 			p.setVisible(true);
+			
 		}else if(BTON_AGREGAR_ESCALAS.equals(c)){
-			PanelRelacionesCiudades pa= new PanelRelacionesCiudades();
-			pa.setVisible(true);
+			//PanelRelacionesCiudades pa= new PanelRelacionesCiudades();
+			//pa.setVisible(true);
+			
+			nombreAerolinea = JOptionPane.showInputDialog(null, "Ingrese el nombre de la aerolinea: ");
+			
+			try {
+				velocidadVuelos = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la velocidad  de vuelo"));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Por favor ingrese un valor correcto");
+			}
+			
+			
+			VentanaAgregarRutas vent = new VentanaAgregarRutas(); 
+			vent.setVisible(true);
+			
+			
+			
 		}else if(BTON_FINALIZAR.equals(c)){
 			
 		}
+	}
+
+	public String getNombreAerolinea() {
+		return nombreAerolinea;
+	}
+
+	public void setNombreAerolinea(String nombreAerolinea) {
+		this.nombreAerolinea = nombreAerolinea;
+	}
+
+	public double getVelocidadVuelos() {
+		return velocidadVuelos;
+	}
+
+	public void setVelocidadVuelos(double velocidadVuelos) {
+		this.velocidadVuelos = velocidadVuelos;
 	}
 	
 }

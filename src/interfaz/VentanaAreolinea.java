@@ -15,6 +15,12 @@ public class VentanaAreolinea extends JFrame {
 	
 	public VentanaAreolinea(){
 		setLayout(new BorderLayout());
+		
+		
+		setTitle("Galchiner S.A");
+		setSize(800, 750);
+		//setLocationRelativeTo(null);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		panelUsuario= new PanelUsuario(this);

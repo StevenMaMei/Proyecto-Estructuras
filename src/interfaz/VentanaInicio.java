@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import mundo.Principal;
+
 public class VentanaInicio extends JFrame implements ActionListener{
 
 	private JLabel lbBienvenido;
@@ -20,9 +22,13 @@ public class VentanaInicio extends JFrame implements ActionListener{
 	public static final String LISTA = "Lista";
 	public static final String MATRIZ = "Matriz";
 	
+	//Relacion con el mundo
+	private Principal conexionMundo;
+	
 	
 	public VentanaInicio() {
 	
+		
 		 
 		setTitle("Galchiner S.A");
 		setSize(800, 400);
