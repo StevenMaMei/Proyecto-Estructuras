@@ -160,14 +160,19 @@ public class Principal {
 	 * @return
 	 * @throws Exception
 	 */
-	public String[] darRutaMasEconomica(int indiceCiudad1, int indiceCiudad2) throws Exception{
-		ListaPeso<Ciudad> camino= grafoCandidato[IND_PRECIO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
-		String[] retorno= new String[camino.getList().size()+1];
-		retorno[0]=camino.getTotal()+"";
-		Iterator<Ciudad> it= camino.getList().iterator();
-		int i=1;
-		while(it.hasNext()){
-			retorno[i]=it.next().getNombreCiudad();
+	public String[][] darRutaMasEconomica(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		String [][] retorno = new String [rutas.size()] [CIUDADES.length + 2];
+		int i = 0;
+		for (String key: rutas.keySet()) {
+			IGrafo<Ciudad>[] grafoAct= rutas.get(key);
+			ListaPeso<Ciudad> camino = grafoAct[IND_PRECIO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+			retorno [i][0] = key;
+			retorno [i][1] = camino.getTotal() + "";
+			int j = 2;
+			for (Ciudad ciudad: camino.getList()) {
+				retorno [i][j] = ciudad.getNombreCiudad();
+				j++;
+			}
 			i++;
 		}
 		return retorno;
@@ -179,14 +184,19 @@ public class Principal {
 	 * @return
 	 * @throws Exception
 	 */
-	public String[] darRutaMasCorta(int indiceCiudad1, int indiceCiudad2) throws Exception{
-		ListaPeso<Ciudad> camino= grafoCandidato[IND_DISTANCIA].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
-		String[] retorno= new String[camino.getList().size()+1];
-		retorno[0]=camino.getTotal()+"";
-		Iterator<Ciudad> it= camino.getList().iterator();
-		int i=1;
-		while(it.hasNext()){
-			retorno[i]=it.next().getNombreCiudad();
+	public String[][] darRutaMasCorta(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		String [][] retorno = new String [rutas.size()] [CIUDADES.length + 2];
+		int i = 0;
+		for (String key: rutas.keySet()) {
+			IGrafo<Ciudad>[] grafoAct= rutas.get(key);
+			ListaPeso<Ciudad> camino = grafoAct[IND_DISTANCIA].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+			retorno [i][0] = key;
+			retorno [i][1] = camino.getTotal() + "";
+			int j = 2;
+			for (Ciudad ciudad: camino.getList()) {
+				retorno [i][j] = ciudad.getNombreCiudad();
+				j++;
+			}
 			i++;
 		}
 		return retorno;
@@ -198,14 +208,19 @@ public class Principal {
 	 * @return
 	 * @throws Exception
 	 */
-	public String[] darRutaMasRapida(int indiceCiudad1, int indiceCiudad2) throws Exception{
-		ListaPeso<Ciudad> camino= grafoCandidato[IND_TIEMPO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
-		String[] retorno= new String[camino.getList().size()+1];
-		retorno[0]=camino.getTotal()+"";
-		Iterator<Ciudad> it= camino.getList().iterator();
-		int i=1;
-		while(it.hasNext()){
-			retorno[i]=it.next().getNombreCiudad();
+	public String[][] darRutaMasRapida(int indiceCiudad1, int indiceCiudad2) throws Exception{
+		String [][] retorno = new String [rutas.size()] [CIUDADES.length + 2];
+		int i = 0;
+		for (String key: rutas.keySet()) {
+			IGrafo<Ciudad>[] grafoAct= rutas.get(key);
+			ListaPeso<Ciudad> camino = grafoAct[IND_TIEMPO].Dijkstra(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2]);
+			retorno [i][0] = key;
+			retorno [i][1] = camino.getTotal() + "";
+			int j = 2;
+			for (Ciudad ciudad: camino.getList()) {
+				retorno [i][j] = ciudad.getNombreCiudad();
+				j++;
+			}
 			i++;
 		}
 		return retorno;
