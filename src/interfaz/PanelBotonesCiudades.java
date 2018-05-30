@@ -11,6 +11,7 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 
 
 	private PanelCiudades relacionPanelCiudades;
+	
 	private PanelAerolinea relacionPanelAerolinea;
 	
 	public static final String AGREGAR = "Agregar";
@@ -29,6 +30,7 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 		
 		
 		setLayout(new GridLayout(2, 2));
+		
 		
 		butAgregarVueloDirecto = new JButton("Agregar vuelo directo");
 		butEliminarVueloDirecto = new JButton("Eliminar vuelo directo");

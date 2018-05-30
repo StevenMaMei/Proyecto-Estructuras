@@ -56,7 +56,7 @@ public class PanelMapa extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String comand = e.getActionCommand();
 		if(comand.equals(SIGUIENTE)) {
-			
+			//vr.siguiente 
 		}
 		
 	}
