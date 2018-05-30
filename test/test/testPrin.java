@@ -67,20 +67,20 @@ public class testPrin {
 			
 			principal.reiniciarGrafo();
 			
-			principal.agregarVueloDirecto(0, 1, 130, 300);
-			principal.agregarVueloDirecto(1, 6, 18, 300);
-			principal.agregarVueloDirecto(6, 8, 73, 300);
-			principal.agregarVueloDirecto(8, 9, 120, 300);
-			principal.agregarVueloDirecto(9, 4, 90, 300);
-			principal.agregarVueloDirecto(4, 5, 12, 300);
-			principal.agregarVueloDirecto(5, 2, 32, 300);
-			principal.agregarVueloDirecto(2, 3, 212, 300);
-			principal.agregarVueloDirecto(8, 7, 104, 300);
-			principal.agregarVueloDirecto(7, 11, 20, 300);
-			principal.agregarVueloDirecto(11, 10, 210, 300);
-			principal.agregarVueloDirecto(11, 13, 98, 300);
-			principal.agregarVueloDirecto(7, 12, 105, 300);
-			principal.agregarVueloDirecto(12, 13, 79, 300);
+			principal.agregarVueloDirecto(0, 1, 130, 250);
+			principal.agregarVueloDirecto(1, 6, 18, 250);
+			principal.agregarVueloDirecto(6, 8, 73, 250);
+			principal.agregarVueloDirecto(8, 9, 120, 250);
+			principal.agregarVueloDirecto(9, 4, 90, 250);
+			principal.agregarVueloDirecto(4, 5, 12, 250);
+			principal.agregarVueloDirecto(5, 2, 32, 250);
+			principal.agregarVueloDirecto(2, 3, 212, 250);
+			principal.agregarVueloDirecto(8, 7, 104, 250);
+			principal.agregarVueloDirecto(7, 11, 20, 250);
+			principal.agregarVueloDirecto(11, 10, 210, 250);
+			principal.agregarVueloDirecto(11, 13, 98, 250);
+			principal.agregarVueloDirecto(7, 12, 105, 250);
+			principal.agregarVueloDirecto(12, 13, 79, 250);
 			principal.agregarAerolinea("Despegar");
 			
 			
