@@ -3,6 +3,7 @@ package interfaz;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import mundo.Principal;
 
@@ -11,7 +12,7 @@ public class VentanaAreolinea extends JFrame {
 	private PanelUsuario panelUsuario;
 	private PanelAerolinea panelAereolinea;
 	private PanelBanner panelBanner;
-	private PanelMapaBoton panelMapa;
+	private PanelMapa panelMapa;
 	
 	private Principal conexion;
 	
@@ -28,7 +29,7 @@ public class VentanaAreolinea extends JFrame {
 		panelUsuario= new PanelUsuario(this);
 		panelAereolinea= new PanelAerolinea(this);
 		panelBanner = new PanelBanner();
-		panelMapa = new PanelMapaBoton(this);
+		panelMapa = new PanelMapa(this);
 		
 		
 		add(panelBanner, BorderLayout.NORTH);
@@ -41,6 +42,18 @@ public class VentanaAreolinea extends JFrame {
 	//TODO
 	public String[] darCiudades(){
 		return null;
+	}
+	
+	
+	public void cambiarGrafo() {
+		try {
+			conexion.cambiarRepresentacion();
+			JOptionPane.showMessageDialog(null, "Se ha cambiado el grafo correctamente");
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error en el cambio de grafo");
+			e.printStackTrace();
+		}
 	}
 	
 	

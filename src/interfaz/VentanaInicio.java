@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mundo.Principal;
@@ -73,6 +74,14 @@ public class VentanaInicio extends JFrame implements ActionListener{
 			//Mandar a la interfaz Principal
 			VentanaAreolinea ventPrin = new VentanaAreolinea();
 			ventPrin.setVisible(true);
+			
+			try {
+				conexionMundo = new Principal(Principal.LISTA);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, "No se pudo crear el gafro correctamente");
+				e1.printStackTrace();
+			}
+			
 			dispose();	
 			
 			
@@ -80,6 +89,15 @@ public class VentanaInicio extends JFrame implements ActionListener{
 			//Mandar a la interfaz Principal
 			VentanaAreolinea ventPrin = new VentanaAreolinea();
 			ventPrin.setVisible(true);
+			
+			try {
+				conexionMundo = new Principal(Principal.MATRIZ);
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(null, "No se pudo crear el grafo correctamente");
+				e1.printStackTrace();
+			}
+			
+			
 			dispose();
 			
 		}
