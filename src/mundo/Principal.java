@@ -249,6 +249,8 @@ public class Principal {
 			retorno = new String[rutasLista.size()][CIUDADES.length + 2];
 			int i = 0;
 			for (String key : rutasLista.keySet()) {
+				System.out.println(indiceCiudad1);
+				System.out.println(indiceCiudad2);
 				IGrafo<Ciudad>[] grafoAct = rutasLista.get(key);
 				ListaPeso<Ciudad> camino = grafoAct[IND_PRECIO].Dijkstra(CIUDADES[indiceCiudad1],
 						CIUDADES[indiceCiudad2]);

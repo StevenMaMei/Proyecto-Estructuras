@@ -41,7 +41,7 @@ public class VentanaLista extends JFrame implements ActionListener {
 		titulo = new JLabel(tipoLista);
 		titulo.setFont(new java.awt.Font("Antique Olive Co", 0,20));
 		
-		tabla = new PanelTablaLista(matriz);
+		tabla = new PanelTablaLista(matriz, tipoLista);
 		
 		JPanel aux= new JPanel();
 		aux.setLayout(new GridLayout(1, 3));
