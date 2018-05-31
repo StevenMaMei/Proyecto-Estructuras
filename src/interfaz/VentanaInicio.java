@@ -132,6 +132,7 @@ import javax.swing.JFrame;
 			
 			try {
 				conexionMundo.agregarVueloDirecto(indice1, indice2, precio, velocidad);
+				System.out.println(indice1 + "y " + indice2);
 				JOptionPane.showMessageDialog(null, "Se agrego el vuelo correctamente");
 			} catch (Exception e) {
 				
@@ -163,16 +164,17 @@ import javax.swing.JFrame;
 		
 		
 		public void cerrar() {
-			dispose();
+			relacionVentAgregarRutas.setVisible(false);
 		}
 		
 		public void check() {
 			
 			try {
 				conexionMundo.agregarAerolinea(relacionVentAerolinea.getPanelAereolinea().getNombreAerolinea());
+				JOptionPane.showMessageDialog(null, "Se ha agregado el plan de vuelos");
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Todas las ciudades deben estar conexas para poder agregar la ruta");
-//				e.printStackTrace();
+				e.printStackTrace();
 			}
 			
 			
@@ -192,12 +194,16 @@ import javax.swing.JFrame;
 		}
 		
 		public void abrirSeleccionadorRutas() {
-			relacionVentAgregarRutas.setVisible(true);
-			try {
-				conexionMundo.reiniciarGrafo();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (conexionMundo.existeAerolinea(relacionVentAerolinea.getPanelAereolinea().getNombreAerolinea())) {
+				JOptionPane.showMessageDialog(null, "Ya existe una aerolinea con ese nombre");
+			} else {
+				relacionVentAgregarRutas.setVisible(true);
+				try {
+					conexionMundo.reiniciarGrafo();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		

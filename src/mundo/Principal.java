@@ -383,8 +383,10 @@ public class Principal {
 	 * deben estar conectadas de alguna forma para ser agregadas al plan de vuelo.
 	 */
 	public void agregarAerolinea(String aerolinea) throws Exception {
-		if (grafoCandidato[0].recorridoBFS() != CIUDADES.length)
+		if (grafoCandidato[0].recorridoBFS() != CIUDADES.length) {
+			System.out.println(grafoCandidato[0].recorridoBFS() + "");
 			throw new Exception("Debe de ser posible llegar a todas las ciudades");
+		}
 
 		if (tipoGrafo == MATRIZ) {
 			GrafoMatriz<Ciudad>[] auxiliar1= new GrafoMatriz[grafoCandidato.length];
@@ -412,6 +414,7 @@ public class Principal {
 			rutasMatriz.put(aerolinea,auxiliar);
 		}
 		cambiarRepresentacion();
+		guardaRutas();
 	}
 
 	/**

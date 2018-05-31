@@ -57,6 +57,7 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		ciudadesActuales.addItem("Quito (Ecuador)");
 		ciudadesActuales.addItem("Asunción (Paraguay)");
 		ciudadesActuales.addItem("Lima (Perú)");
+		ciudadesActuales.addItem("Montevideo (Uruguay)");
 		ciudadesActuales.addItem("Carácas (Venezuela)");
 		ciudadesActuales.addItem("Ciudad de Mexico (Mexico)");
 		ciudadesActuales.addItem("Washington D.C. (Estados Unidos)");
@@ -72,6 +73,7 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		ciudadesDestino.addItem("Quito (Ecuador)");
 		ciudadesDestino.addItem("Asunción (Paraguay)");
 		ciudadesDestino.addItem("Lima (Perú)");
+		ciudadesDestino.addItem("Montevideo (Uruguay)");
 		ciudadesDestino.addItem("Carácas (Venezuela)");
 		ciudadesDestino.addItem("Ciudad de Mexico (Mexico)");
 		ciudadesDestino.addItem("Washington D.C. (Estados Unidos)");

@@ -50,6 +50,7 @@ public class VentanaAgregarRutas extends JFrame{
 		add(aux, BorderLayout.CENTER);
 		add(panelMapa, BorderLayout.EAST);
 		
+		
 	
 	}
 
