@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class VentanaListaDistancia extends JFrame implements ActionListener {
+public class VentanaLista extends JFrame implements ActionListener {
 
 	private JLabel titulo; 
 	private PanelTablaLista tabla;
@@ -18,7 +18,7 @@ public class VentanaListaDistancia extends JFrame implements ActionListener {
 	public static final String VOLVER = "Volver";
 	private JButton butVolver;
 	
-	public VentanaListaDistancia() {
+	public VentanaLista(String tipoLista) {
 
 
 		setTitle("Galchiner S.A");
@@ -38,7 +38,7 @@ public class VentanaListaDistancia extends JFrame implements ActionListener {
 		butVolver.addActionListener(this );
 		
 		
-		titulo = new JLabel("Listado por distancia");
+		titulo = new JLabel(tipoLista);
 		titulo.setFont(new java.awt.Font("Antique Olive Co", 0,20));
 		
 		

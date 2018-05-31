@@ -141,16 +141,19 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		
 		if(comando.equals(BTON_DISTANCIA)){
 			
-			VentanaListaDistancia ventDis = new VentanaListaDistancia();
+			VentanaLista ventDis = new VentanaLista("Listado por Distancia minima");
+			ventDis.setVisible(true);
+			
+
+		}else if(comando.equals(BTON_PRECIO)){
+			
+			VentanaLista ventDis = new VentanaLista("Listado por Precio minimo");
 			ventDis.setVisible(true);
 			
 			
-		//	PanelTablaLista lista = new PanelTablaLista(tabla);
-			
-		}else if(comando.equals(BTON_PRECIO)){
-			
-			
 		}else if(comando.equals(BTON_TIEMPO)){
+			VentanaLista ventDis = new VentanaLista("Listado por Tiempo minimo");
+			ventDis.setVisible(true);
 			
 			
 		}

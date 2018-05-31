@@ -35,7 +35,7 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	private JLabel espacio3;
 	private JLabel espacio4;
 
-	public final static String BTON_SELECCIONAR_CIUDADES = "seleCiudades";
+	//public final static String BTON_SELECCIONAR_CIUDADES = "seleCiudades";
 	public final static String BTON_AGREGAR_ESCALAS = "agrEscalas";
 	public final static String BTON_CAMBIARGRAFO = "CambiarGrafo";
 	
@@ -49,7 +49,7 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 		titulo.setTitleColor(Color.BLACK);
 		setBorder(titulo);
 
-		setLayout(new GridLayout(7, 1));
+		setLayout(new GridLayout(5, 1));
 
 		espacio1 = new JLabel("");
 		espacio2 = new JLabel("");
@@ -62,9 +62,9 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 		ciudadesSeleccionadas = new ArrayList<>();
 		relaciones = new ArrayList<>();
 
-		btonSeleccionarCiudades = new JButton("Seleccionar ciudades disponibles");
-		btonSeleccionarCiudades.addActionListener(this);
-		btonSeleccionarCiudades.setActionCommand(BTON_SELECCIONAR_CIUDADES);
+		//btonSeleccionarCiudades = new JButton("Seleccionar ciudades disponibles");
+		//btonSeleccionarCiudades.addActionListener(this);
+		//btonSeleccionarCiudades.setActionCommand(BTON_SELECCIONAR_CIUDADES);
 
 		btonAgregarEscalas = new JButton("Agregar las rutas");
 		btonAgregarEscalas.addActionListener(this);
@@ -76,10 +76,10 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 
 		btonAgregarEscalas.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
 		btCambiarGrafo.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
-		btonSeleccionarCiudades.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
+		//btonSeleccionarCiudades.setFont(new java.awt.Font("Antique Olive Co", 0, 20));
 
-		add(espacio1);
-		add(btonSeleccionarCiudades);
+		//add(espacio1);
+		//add(btonSeleccionarCiudades);
 		add(espacio2);
 		add(btonAgregarEscalas);
 		add(espacio3);
@@ -102,9 +102,7 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String c = arg0.getActionCommand();
-		if (BTON_SELECCIONAR_CIUDADES.equals(c)) {
-
-		} else if (BTON_AGREGAR_ESCALAS.equals(c)) {
+		 if (BTON_AGREGAR_ESCALAS.equals(c)) {
 		
 			nombreAerolinea = JOptionPane.showInputDialog(null, "Ingrese el nombre de la aerolinea: ");
 			velocidadVuelos = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la velocidad  de vuelo"));
