@@ -23,7 +23,6 @@ public class PanelUsuario extends JPanel implements ActionListener{
 	private JButton btonPorTiempo;
 	private JLabel lblCiudadActual;
 	private JLabel lblCiudadDestino;
-	private VentanaAreolinea principal;
 	
 	private JLabel espacio1;
 	private JLabel espacio2;
@@ -33,9 +32,12 @@ public class PanelUsuario extends JPanel implements ActionListener{
 	private static final String BTON_DISTANCIA="ldistancia";
 	private static final String BTON_TIEMPO="ltiempo";
 	
+	private VentanaInicio relacionInicio;
 	
-	public PanelUsuario(VentanaAreolinea p){
-		principal = p;
+	
+	public PanelUsuario(VentanaInicio p){
+	
+		relacionInicio = p;
 		
 		TitledBorder titulo = BorderFactory.createTitledBorder("Usuario");
 		titulo.setTitleColor(Color.BLACK);
@@ -125,15 +127,18 @@ public class PanelUsuario extends JPanel implements ActionListener{
 	}
 	
 	public void actualizarCiudadesPartida(){
-		String[] ciudades= principal.darCiudades();
-		ciudadesActuales=new JComboBox<>(ciudades);
-		ciudadesDestino= new JComboBox<>(ciudades);
+		
+		//String[] ciudades= principal.darCiudades();
+		//ciudadesActuales=new JComboBox<>(ciudades);
+		//ciudadesDestino= new JComboBox<>(ciudades);
+	
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando= e.getActionCommand();
 		String partida= ciudadesActuales.getSelectedItem().toString();
 		String destino= ciudadesDestino.getSelectedItem().toString();
+		
 		if(comando.equals(BTON_DISTANCIA)){
 			
 			VentanaListaDistancia ventDis = new VentanaListaDistancia();
@@ -144,13 +149,9 @@ public class PanelUsuario extends JPanel implements ActionListener{
 			
 		}else if(comando.equals(BTON_PRECIO)){
 			
-			VentanaListaPrecio ventPre = new VentanaListaPrecio();
-			ventPre.setVisible(true );
 			
 		}else if(comando.equals(BTON_TIEMPO)){
 			
-			VentanaListaTiempo ventTiemp = new VentanaListaTiempo();
-			ventTiemp.setVisible(true);
 			
 		}
 		

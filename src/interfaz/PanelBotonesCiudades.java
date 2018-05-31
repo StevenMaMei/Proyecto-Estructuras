@@ -10,40 +10,45 @@ import javax.swing.JPanel;
 public class PanelBotonesCiudades extends JPanel implements ActionListener {
 
 
-	private PanelCiudades relacionPanelCiudades;
-	
-	private PanelAerolinea relacionPanelAerolinea;
-	
+
 	public static final String AGREGAR = "Agregar";
 	public static final String ELIMINAR = "Eliminar";
 	public static final String VOLVER = "Volver";
+	public static final String CHECK = "Check";
+	
 	
 	private JButton butAgregarVueloDirecto;
 	private JButton butEliminarVueloDirecto;
+	private JButton butCheck;
 	private JButton butVolver;
 
 	//relacion 
-	private VentanaAgregarRutas vr;
+	private VentanaInicio vr;
 	
-	public PanelBotonesCiudades(VentanaAgregarRutas vr) {
+	
+	
+	public PanelBotonesCiudades(VentanaInicio vr) {
 		this.vr = vr;
 		
 		
 		setLayout(new GridLayout(2, 2));
 		
-		
+		butCheck = new JButton("Check");
 		butAgregarVueloDirecto = new JButton("Agregar vuelo directo");
 		butEliminarVueloDirecto = new JButton("Eliminar vuelo directo");
 		butVolver = new JButton("Volver");
 		
+		butCheck.setFont(new java.awt.Font("Antique Olive Co",0,30));
 		butAgregarVueloDirecto.setFont(new java.awt.Font("Antique Olive Co",0,30));
 		butEliminarVueloDirecto.setFont(new java.awt.Font("Antique Olive Co",0,30));
 		butVolver.setFont(new java.awt.Font("Antique Olive Co",0,30));
 		
+		butCheck.setActionCommand(CHECK);
 		butAgregarVueloDirecto.setActionCommand(AGREGAR);
 		butEliminarVueloDirecto.setActionCommand(ELIMINAR);
 		butVolver.setActionCommand(VOLVER);
 		
+		butCheck.addActionListener(this);
 		butAgregarVueloDirecto.addActionListener(this);
 		butEliminarVueloDirecto.addActionListener(this);
 		butVolver.addActionListener(this);
@@ -51,6 +56,7 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 		add(butAgregarVueloDirecto);
 		add(butEliminarVueloDirecto);
 		add(butVolver);
+		add(butCheck);
 	}
 	
 	
@@ -60,20 +66,18 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 	String comando = e.getActionCommand();
 		
 		if (comando.equals(AGREGAR)) {
-			int ciudad1 = relacionPanelCiudades.getCiudadActual();
-			int ciudad2 = relacionPanelCiudades.getCiudadDestino();
-			int precio = Integer.parseInt(relacionPanelCiudades.getPrecio());
-			double velocidad = relacionPanelAerolinea.getVelocidadVuelos();
-			vr.agregarVueloDirecto(ciudad1, ciudad2, precio, velocidad);
+		
+			vr.agregarVuelo();
+			
 			
 		}else if (comando.equals(ELIMINAR)) {
 			
-			int ciudad1=relacionPanelCiudades.getCiudadActual();
-			int ciudad2 = relacionPanelCiudades.getCiudadDestino();
-			vr.eliminarVueloDirecto(ciudad1, ciudad2);
+			vr.eliminarVuelo();
 			
 		}else if(comando.equals(VOLVER)) {
-			vr.cerrar();
+			 vr.cerrar();
+		}else if(comando.equals(CHECK)) {
+			vr.check();
 		}
 		
 		

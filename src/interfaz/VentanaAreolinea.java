@@ -14,9 +14,14 @@ public class VentanaAreolinea extends JFrame {
 	private PanelBanner panelBanner;
 	private PanelMapa panelMapa;
 	
-	private Principal conexion;
+	private VentanaInicio relacionInicio;
+
 	
-	public VentanaAreolinea(){
+	
+	public VentanaAreolinea(VentanaInicio ventInicio){
+		
+		relacionInicio = ventInicio;
+		
 		setLayout(new BorderLayout());
 		
 		
@@ -26,10 +31,10 @@ public class VentanaAreolinea extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		panelUsuario= new PanelUsuario(this);
-		panelAereolinea= new PanelAerolinea(this);
+		panelUsuario= new PanelUsuario(relacionInicio);
+		panelAereolinea= new PanelAerolinea(relacionInicio);
 		panelBanner = new PanelBanner();
-		panelMapa = new PanelMapa(this);
+		panelMapa = new PanelMapa(relacionInicio);
 		
 		
 		add(panelBanner, BorderLayout.NORTH);
@@ -47,7 +52,7 @@ public class VentanaAreolinea extends JFrame {
 	
 	public void cambiarGrafo() {
 		try {
-			conexion.cambiarRepresentacion();
+			//conexion.cambiarRepresentacion();
 			JOptionPane.showMessageDialog(null, "Se ha cambiado el grafo correctamente");
 			
 		} catch (Exception e) {
@@ -55,31 +60,17 @@ public class VentanaAreolinea extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	//Listas companias 
-	
-	public String[][] listaDistancia(){
-		String [][] matriz = null;
-		//conexion.
-		return matriz;
+	public PanelAerolinea getPanelAereolinea() {
+		return panelAereolinea;
+	}
+	public void setPanelAereolinea(PanelAerolinea panelAereolinea) {
+		this.panelAereolinea = panelAereolinea;
 	}
 	
 	
-	public String[][] listaPrecio(){
-		String [][] matriz = null;
-		
-		
-		
-		return matriz;
-	}
 	
-	public String[][] listaTiempo(){
-		String [][] matriz = null;
-		
-		return matriz;
-	}
+
+	
 	
 	
 }

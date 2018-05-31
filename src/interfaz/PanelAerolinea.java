@@ -21,11 +21,12 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	private String nombreAerolinea;
 	private double velocidadVuelos;
 
-	private VentanaAreolinea principal;
+	
 	private JTextField textCantCiudadesSeleccionadas;
 	private JButton btonSeleccionarCiudades;
 	private JButton btonAgregarEscalas;
 	private JButton btCambiarGrafo;
+	
 	private ArrayList<String> ciudadesSeleccionadas;
 	private ArrayList<String> relaciones;
 
@@ -37,9 +38,12 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 	public final static String BTON_SELECCIONAR_CIUDADES = "seleCiudades";
 	public final static String BTON_AGREGAR_ESCALAS = "agrEscalas";
 	public final static String BTON_CAMBIARGRAFO = "CambiarGrafo";
+	
+	private VentanaInicio relacionInicio;
+	
 
-	public PanelAerolinea(VentanaAreolinea p) {
-		principal = p;
+	public PanelAerolinea(VentanaInicio ventInicio) {
+		relacionInicio = ventInicio;
 
 		TitledBorder titulo = BorderFactory.createTitledBorder("Aerolinea");
 		titulo.setTitleColor(Color.BLACK);
@@ -102,20 +106,28 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 
 		} else if (BTON_AGREGAR_ESCALAS.equals(c)) {
 		
-
-			//nombreAerolinea = JOptionPane.showInputDialog(null, "Ingrese el nombre de la aerolinea: ");
-			//velocidadVuelos = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la velocidad  de vuelo"));
-			VentanaAgregarRutas vent = new VentanaAgregarRutas();
+			nombreAerolinea = JOptionPane.showInputDialog(null, "Ingrese el nombre de la aerolinea: ");
+			velocidadVuelos = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la velocidad  de vuelo"));
+			
+			VentanaAgregarRutas vent = new VentanaAgregarRutas(relacionInicio);
 			vent.setVisible(true);
-
+			
+			
+			
 
 		} else if (BTON_CAMBIARGRAFO.equals(c)) {
 			
-			principal.cambiarGrafo();
+			relacionInicio.cambiarGrafo();
 
 		}
 	}
 
+	
+	
+	
+	
+	
+	
 	public String getNombreAerolinea() {
 		return nombreAerolinea;
 	}

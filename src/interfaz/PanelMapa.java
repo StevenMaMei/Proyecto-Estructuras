@@ -21,11 +21,11 @@ public class PanelMapa extends JPanel implements ActionListener{
 	public static final String SIGUIENTE = "Siguiente";
 	
 	
-	private VentanaAreolinea vr;
+	private VentanaInicio relacionInicio;
 	
-	public PanelMapa(VentanaAreolinea vr) {
+	public PanelMapa(VentanaInicio ventInicio) {
 		
-		this.vr = vr;
+		relacionInicio = ventInicio;
 		
 		TitledBorder titulo = BorderFactory.createTitledBorder("Mapa");
 		titulo.setTitleColor(Color.BLACK);

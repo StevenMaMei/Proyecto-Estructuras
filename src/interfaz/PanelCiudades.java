@@ -19,21 +19,24 @@ public class PanelCiudades extends JPanel {
 	
 	private PanelBotonesCiudades panelbotones;
 	
-	private VentanaAgregarRutas vr;
+	
+	private VentanaInicio relacionInicio;
 	
 	private JComboBox<String> ciudadesActuales;
 	private JComboBox<String> ciudadesDestino;
 	
-	public PanelCiudades(VentanaAgregarRutas vr) {
+	public PanelCiudades(VentanaInicio ventInicio ) {
 	
-		this.vr = vr;
+		
+		relacionInicio = ventInicio;
+		
 		setLayout(new GridLayout(8, 1));
 		
 		
 		TitledBorder titulo = BorderFactory.createTitledBorder("Opciones");
 		setBorder(titulo);
 		
-		panelbotones = new PanelBotonesCiudades(vr);
+		panelbotones = new PanelBotonesCiudades(relacionInicio);
 		ciudadesActuales = new JComboBox<>();
 		ciudadesDestino = new JComboBox<>();
 		
@@ -95,6 +98,10 @@ public class PanelCiudades extends JPanel {
 		add(panelbotones);
 		
 	}
+	
+	
+	
+	
 	
 	public int getCiudadActual() {
 		int indiceCiudad = ciudadesActuales.getSelectedIndex();
