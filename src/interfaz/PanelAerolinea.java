@@ -107,8 +107,7 @@ public class PanelAerolinea extends JPanel implements ActionListener {
 			nombreAerolinea = JOptionPane.showInputDialog(null, "Ingrese el nombre de la aerolinea: ");
 			velocidadVuelos = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la velocidad  de vuelo"));
 			
-			VentanaAgregarRutas vent = new VentanaAgregarRutas(relacionInicio);
-			vent.setVisible(true);
+			relacionInicio.abrirSeleccionadorRutas();
 			
 			
 			

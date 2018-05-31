@@ -191,6 +191,16 @@ import javax.swing.JFrame;
 			
 		}
 		
+		public void abrirSeleccionadorRutas() {
+			relacionVentAgregarRutas.setVisible(true);
+			try {
+				conexionMundo.reiniciarGrafo();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 		
 	}
