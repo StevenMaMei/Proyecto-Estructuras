@@ -38,7 +38,9 @@ public class GrafoMatriz<E> implements IGrafo<E>, Serializable {
 		totalNodos = 0;
 
 	}
-
+	public double[][] darMatrizAdyacencia(){
+		return matrizAdyacencia;
+	}
 	@Override
 	public void agregarNodo(E nodo) throws Exception {
 		if (totalNodos == maxNodos)
