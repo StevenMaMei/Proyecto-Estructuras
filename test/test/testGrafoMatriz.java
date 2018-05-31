@@ -1,12 +1,13 @@
 package test;
 
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import estructuras.GrafoMatriz;
 import estructuras.ListaPeso;

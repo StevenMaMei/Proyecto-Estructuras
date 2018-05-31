@@ -160,11 +160,13 @@ public class PanelUsuario extends JPanel implements ActionListener{
 	}
 	
 	public int getCiudad1() {
+		System.out.println(ciudadesActuales.getSelectedIndex());
 		return ciudadesActuales.getSelectedIndex();
 	}
 	
 	public int getCiudad2() {
-		return ciudadesActuales.getSelectedIndex();
+		System.out.println(ciudadesActuales.getSelectedIndex());
+		return ciudadesDestino.getSelectedIndex();
 	}
 	
 	

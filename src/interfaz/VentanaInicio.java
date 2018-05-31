@@ -174,7 +174,7 @@ import javax.swing.JFrame;
 				JOptionPane.showMessageDialog(null, "Se ha agregado el plan de vuelos");
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Todas las ciudades deben estar conexas para poder agregar la ruta");
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 			
 			
@@ -220,7 +220,7 @@ import javax.swing.JFrame;
 		
 		public void vuelosMasCortos() {
 			try {
-				VentanaLista vent = new VentanaLista("Precio", conexionMundo.darRutaMasCorta
+				VentanaLista vent = new VentanaLista("Distancia", conexionMundo.darRutaMasCorta
 						(relacionVentAerolinea.getPanelUsuario().getCiudad1(), relacionVentAerolinea.getPanelUsuario().getCiudad2()));
 				vent.setVisible(true);
 			} catch (Exception e) {
@@ -231,7 +231,7 @@ import javax.swing.JFrame;
 		
 		public void vuelosMasRapidos() {
 			try {
-				VentanaLista vent = new VentanaLista("Precio", conexionMundo.darRutaMasRapida
+				VentanaLista vent = new VentanaLista("Tiempo", conexionMundo.darRutaMasRapida
 						(relacionVentAerolinea.getPanelUsuario().getCiudad1(), relacionVentAerolinea.getPanelUsuario().getCiudad2()));
 				vent.setVisible(true);
 			} catch (Exception e) {
