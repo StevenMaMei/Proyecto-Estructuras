@@ -198,7 +198,7 @@ public class Principal {
 		grafoCandidato[IND_DISTANCIA].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2],
 				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2]);
 		grafoCandidato[IND_TIEMPO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2],
-				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] * velocidad);
+				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] / velocidad);
 
 	}
 
@@ -387,13 +387,29 @@ public class Principal {
 			throw new Exception("Debe de ser posible llegar a todas las ciudades");
 
 		if (tipoGrafo == MATRIZ) {
-			rutasMatriz.put(aerolinea, (GrafoMatriz<Ciudad>[]) grafoCandidato);
+			GrafoMatriz<Ciudad>[] auxiliar1= new GrafoMatriz[grafoCandidato.length];
+			for (int i = 0; i < auxiliar1.length; i++) {
+				auxiliar1[i]=(GrafoMatriz<Ciudad>) grafoCandidato[i];
+			}
+			rutasMatriz.put(aerolinea, auxiliar1);
 			cambiarRepresentacion();
+			GrafoListaAdyacente<Ciudad>[]auxiliar2=new GrafoListaAdyacente[grafoCandidato.length];
+			for (int i = 0; i < auxiliar2.length; i++) {
+				auxiliar2[i]=(GrafoListaAdyacente<Ciudad>) grafoCandidato[i];
+			}
 			rutasLista.put(aerolinea, (GrafoListaAdyacente<Ciudad>[]) grafoCandidato);
 		} else {
-			rutasLista.put(aerolinea, (GrafoListaAdyacente<Ciudad>[]) grafoCandidato);
+			GrafoListaAdyacente<Ciudad>[]auxiliar2=new GrafoListaAdyacente[grafoCandidato.length];
+			for (int i = 0; i < auxiliar2.length; i++) {
+				auxiliar2[i]=(GrafoListaAdyacente<Ciudad>) grafoCandidato[i];
+			}
+			rutasLista.put(aerolinea,auxiliar2);
 			cambiarRepresentacion();
-			rutasMatriz.put(aerolinea, (GrafoMatriz<Ciudad>[]) grafoCandidato);
+			GrafoMatriz<Ciudad>[]auxiliar=new GrafoMatriz[grafoCandidato.length];
+			for (int i = 0; i < auxiliar.length; i++) {
+				auxiliar[i]=(GrafoMatriz<Ciudad>) grafoCandidato[i];
+			}
+			rutasMatriz.put(aerolinea,auxiliar);
 		}
 		cambiarRepresentacion();
 	}
