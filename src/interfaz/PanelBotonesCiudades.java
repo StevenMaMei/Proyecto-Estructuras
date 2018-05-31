@@ -10,6 +10,10 @@ import javax.swing.JPanel;
 public class PanelBotonesCiudades extends JPanel implements ActionListener {
 
 
+	private PanelCiudades relacionPanelCiudades;
+	
+	private PanelAerolinea relacionPanelAerolinea;
+	
 	public static final String AGREGAR = "Agregar";
 	public static final String ELIMINAR = "Eliminar";
 	public static final String VOLVER = "Volver";
@@ -24,7 +28,9 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 	public PanelBotonesCiudades(VentanaAgregarRutas vr) {
 		this.vr = vr;
 		
+		
 		setLayout(new GridLayout(2, 2));
+		
 		
 		butAgregarVueloDirecto = new JButton("Agregar vuelo directo");
 		butEliminarVueloDirecto = new JButton("Eliminar vuelo directo");
@@ -54,8 +60,17 @@ public class PanelBotonesCiudades extends JPanel implements ActionListener {
 	String comando = e.getActionCommand();
 		
 		if (comando.equals(AGREGAR)) {
+			int ciudad1 = relacionPanelCiudades.getCiudadActual();
+			int ciudad2 = relacionPanelCiudades.getCiudadDestino();
+			int precio = Integer.parseInt(relacionPanelCiudades.getPrecio());
+			double velocidad = relacionPanelAerolinea.getVelocidadVuelos();
+			vr.agregarVueloDirecto(ciudad1, ciudad2, precio, velocidad);
 			
 		}else if (comando.equals(ELIMINAR)) {
+			
+			int ciudad1=relacionPanelCiudades.getCiudadActual();
+			int ciudad2 = relacionPanelCiudades.getCiudadDestino();
+			vr.eliminarVueloDirecto(ciudad1, ciudad2);
 			
 		}else if(comando.equals(VOLVER)) {
 			vr.cerrar();

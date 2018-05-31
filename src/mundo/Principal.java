@@ -198,7 +198,7 @@ public class Principal {
 		grafoCandidato[IND_DISTANCIA].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2],
 				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2]);
 		grafoCandidato[IND_TIEMPO].generarArista(CIUDADES[indiceCiudad1], CIUDADES[indiceCiudad2],
-				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] * velocidad);
+				MATRIZ_DISTANCIAS[indiceCiudad1][indiceCiudad2] / velocidad);
 
 	}
 

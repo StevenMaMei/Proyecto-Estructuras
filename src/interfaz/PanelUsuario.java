@@ -48,35 +48,34 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		ciudadesActuales.setFont(new java.awt.Font("Antique Olive Co", 0, 30));
 	
 		
-		ciudadesActuales.addItem("Asunción (Paraguay)");
+		ciudadesActuales.addItem("Cali (Colombia)");
 		ciudadesActuales.addItem("Buenos Aires (Argentina)");
 		ciudadesActuales.addItem("Brasilia (Brasil)");
-		ciudadesActuales.addItem("Cali (Colombia)");
+		ciudadesActuales.addItem("Santiago de Chile (Chile)");
+		ciudadesActuales.addItem("Quito (Ecuador)");
+		ciudadesActuales.addItem("Asunción (Paraguay)");
+		ciudadesActuales.addItem("Lima (Perú)");
 		ciudadesActuales.addItem("Carácas (Venezuela)");
 		ciudadesActuales.addItem("Ciudad de Mexico (Mexico)");
-		ciudadesActuales.addItem("Montevideo (Uruguay)");
-		ciudadesActuales.addItem("Lima (Perú)");
-		ciudadesActuales.addItem("Ottawa (Canada)");
-		ciudadesActuales.addItem("Panamá (Panamá)");
-		ciudadesActuales.addItem("Quito (Ecuador)");
-		ciudadesActuales.addItem("Santiago de Chile (Chile)");
-		ciudadesActuales.addItem("Sucre (Bolivia)");
 		ciudadesActuales.addItem("Washington D.C. (Estados Unidos)");
+		ciudadesActuales.addItem("Panamá (Panamá)");
+		ciudadesActuales.addItem("Ottawa (Canada)");
+		ciudadesActuales.addItem("Sucre (Bolivia)");
 		
-		ciudadesDestino.addItem("Asunción (Paraguay)");
+		
+		ciudadesDestino.addItem("Cali (Colombia)");
 		ciudadesDestino.addItem("Buenos Aires (Argentina)");
 		ciudadesDestino.addItem("Brasilia (Brasil)");
-		ciudadesDestino.addItem("Cali (Colombia)");
+		ciudadesDestino.addItem("Santiago de Chile (Chile)");
+		ciudadesDestino.addItem("Quito (Ecuador)");
+		ciudadesDestino.addItem("Asunción (Paraguay)");
+		ciudadesDestino.addItem("Lima (Perú)");
 		ciudadesDestino.addItem("Carácas (Venezuela)");
 		ciudadesDestino.addItem("Ciudad de Mexico (Mexico)");
-		ciudadesDestino.addItem("Montevideo (Uruguay)");
-		ciudadesDestino.addItem("Lima (Perú)");
-		ciudadesDestino.addItem("Ottawa (Canada)");
-		ciudadesDestino.addItem("Panamá (Panamá)");
-		ciudadesDestino.addItem("Quito (Ecuador)");
-		ciudadesDestino.addItem("Santiago de Chile (Chile)");
-		ciudadesDestino.addItem("Sucre (Bolivia)");
 		ciudadesDestino.addItem("Washington D.C. (Estados Unidos)");
+		ciudadesDestino.addItem("Panamá (Panamá)");
+		ciudadesDestino.addItem("Ottawa (Canada)");
+		ciudadesDestino.addItem("Sucre (Bolivia)");
 		
 		
 		lblCiudadActual= new JLabel("Ciudad de partida");
@@ -136,10 +135,12 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		String partida= ciudadesActuales.getSelectedItem().toString();
 		String destino= ciudadesDestino.getSelectedItem().toString();
 		if(comando.equals(BTON_DISTANCIA)){
+			
 			VentanaListaDistancia ventDis = new VentanaListaDistancia();
 			ventDis.setVisible(true);
 			
 			
+		//	PanelTablaLista lista = new PanelTablaLista(tabla);
 			
 		}else if(comando.equals(BTON_PRECIO)){
 			
