@@ -171,8 +171,8 @@ import javax.swing.JFrame;
 			try {
 				conexionMundo.agregarAerolinea(relacionVentAerolinea.getPanelAereolinea().getNombreAerolinea());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "No se pudo agregar la aerolinea correctamente");
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Todas las ciudades deben estar conexas para poder agregar la ruta");
+//				e.printStackTrace();
 			}
 			
 			
