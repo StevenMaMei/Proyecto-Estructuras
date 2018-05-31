@@ -80,11 +80,22 @@ public class Principal {
 		File arch = new File("./data/grafo" + MATRIZ);
 		if (arch.exists()) {
 			ObjectInputStream is = new ObjectInputStream(new FileInputStream(arch));
-			rutasMatriz = (HashSerialisable<String, GrafoMatriz<Ciudad>[]>) is.readObject();
-
+			HashSerialisable aux= (HashSerialisable) is.readObject();
+			HashSerialisable<String, GrafoMatriz<Ciudad>[]> añadir= new HashSerialisable();
+			for(Object a: aux.keySet()){
+				String k=(String) a;
+				añadir.put(k, (GrafoMatriz<Ciudad>[])aux.get(k));
+			}
+			rutasMatriz= añadir;
 			arch = new File("./data/grafo" + LISTA);
 			is = new ObjectInputStream(new FileInputStream(arch));
-			rutasLista = (HashSerialisable<String, GrafoListaAdyacente<Ciudad>[]>) is.readObject();
+			HashSerialisable aux2= (HashSerialisable) is.readObject();
+			HashSerialisable<String, GrafoListaAdyacente<Ciudad>[]> añadir2=new HashSerialisable<>();
+			for(Object a: aux2.keySet()){
+				String k=(String) a;
+				añadir2.put(k, (GrafoListaAdyacente<Ciudad>[])aux2.get(k));
+			}
+			rutasLista= añadir2;
 			is.close();
 		} else {
 			rutasMatriz = new HashSerialisable<>();
@@ -416,7 +427,7 @@ public class Principal {
 			rutasMatriz.put(aerolinea,auxiliar);
 		}
 		cambiarRepresentacion();
-		guardaRutas();
+//		guardaRutas();
 	}
 
 	/**

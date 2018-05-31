@@ -1,10 +1,12 @@
 package test;
 
-import static org.junit.Assert.*;
+
 
 import java.util.HashMap;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import estructuras.GrafoListaAdyacente;
 import estructuras.GrafoMatriz;
@@ -232,8 +234,8 @@ public class testPrincipal {
 				}
 			}
 		} catch (Exception e) {
-			fail();
 			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -291,8 +293,8 @@ public class testPrincipal {
 				}
 			}
 		} catch (Exception e) {
-			fail();
 			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -344,8 +346,8 @@ public class testPrincipal {
 				}
 			}
 		} catch (Exception e) {
-			fail();
 			e.printStackTrace();
+			fail();
 		}
 	}
 	
