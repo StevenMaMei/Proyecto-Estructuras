@@ -141,23 +141,28 @@ public class PanelUsuario extends JPanel implements ActionListener{
 		
 		if(comando.equals(BTON_DISTANCIA)){
 			
-			VentanaLista ventDis = new VentanaLista("Listado por Distancia minima");
-			ventDis.setVisible(true);
+			relacionInicio.vuelosMasCortos();
 			
 
 		}else if(comando.equals(BTON_PRECIO)){
 			
-			VentanaLista ventDis = new VentanaLista("Listado por Precio minimo");
-			ventDis.setVisible(true);
+			relacionInicio.vuelosMasBaratos();
 			
 			
 		}else if(comando.equals(BTON_TIEMPO)){
-			VentanaLista ventDis = new VentanaLista("Listado por Tiempo minimo");
-			ventDis.setVisible(true);
+			relacionInicio.vuelosMasRapidos();
 			
 			
 		}
 		
+	}
+	
+	public int getCiudad1() {
+		return ciudadesActuales.getSelectedIndex();
+	}
+	
+	public int getCiudad2() {
+		return ciudadesActuales.getSelectedIndex();
 	}
 	
 	

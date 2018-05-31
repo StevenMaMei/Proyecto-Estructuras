@@ -67,6 +67,10 @@ public class VentanaAreolinea extends JFrame {
 		this.panelAereolinea = panelAereolinea;
 	}
 	
+	public PanelUsuario getPanelUsuario() {
+		return panelUsuario;
+	}
+	
 	
 	
 

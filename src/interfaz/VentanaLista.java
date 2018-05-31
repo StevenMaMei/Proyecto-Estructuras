@@ -18,7 +18,7 @@ public class VentanaLista extends JFrame implements ActionListener {
 	public static final String VOLVER = "Volver";
 	private JButton butVolver;
 	
-	public VentanaLista(String tipoLista) {
+	public VentanaLista(String tipoLista, String [][] matriz) {
 
 
 		setTitle("Galchiner S.A");
@@ -41,7 +41,7 @@ public class VentanaLista extends JFrame implements ActionListener {
 		titulo = new JLabel(tipoLista);
 		titulo.setFont(new java.awt.Font("Antique Olive Co", 0,20));
 		
-		
+		tabla = new PanelTablaLista(matriz);
 		
 		JPanel aux= new JPanel();
 		aux.setLayout(new GridLayout(1, 3));

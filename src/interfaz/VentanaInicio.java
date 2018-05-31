@@ -201,6 +201,39 @@ import javax.swing.JFrame;
 			}
 		}
 		
+		public void vuelosMasBaratos() {
+			try {
+				VentanaLista vent = new VentanaLista("Precio", conexionMundo.darRutaMasEconomica
+						(relacionVentAerolinea.getPanelUsuario().getCiudad1(), relacionVentAerolinea.getPanelUsuario().getCiudad2()));
+				vent.setVisible(true);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void vuelosMasCortos() {
+			try {
+				VentanaLista vent = new VentanaLista("Precio", conexionMundo.darRutaMasCorta
+						(relacionVentAerolinea.getPanelUsuario().getCiudad1(), relacionVentAerolinea.getPanelUsuario().getCiudad2()));
+				vent.setVisible(true);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void vuelosMasRapidos() {
+			try {
+				VentanaLista vent = new VentanaLista("Precio", conexionMundo.darRutaMasRapida
+						(relacionVentAerolinea.getPanelUsuario().getCiudad1(), relacionVentAerolinea.getPanelUsuario().getCiudad2()));
+				vent.setVisible(true);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 		
 	}
